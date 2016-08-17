@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<!-- globus-metadata.xsl
+  -->
+
+<dspace-dc-types>
+  <dc-schema>
+          <name>globus</name>
+          <namespace>http://globus.org/publish-terms/</namespace>
+  </dc-schema>
+
+
+  <dspace-header>
+    <title>Metadata Types Registry for Globus</title>
+    <contributor.author>Globus</contributor.author>
+    <date.created>2014-07-31</date.created>
+    <description>
+    	Globus metadata for referencing datasets managed in Globus.
+    </description>
+  </dspace-header>
+
+  <dc-type>
+    <schema>globus</schema>
+    <element>shared_endpoint</element>
+    <qualifier>name</qualifier>
+    <scope_note>The shared endpoint name</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>globus</schema>
+    <element>shared_endpoint</element>
+    <qualifier>path</qualifier>
+    <scope_note>The shared endpoint path</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>globus</schema>
+    <element>publication</element>
+    <qualifier>submitter</qualifier>
+    <scope_note>The dataset submitter</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>globus</schema>
+    <element>publication</element>
+    <qualifier>collection</qualifier>
+    <scope_note>The dataset collection</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>globus</schema>
+    <element>publication</element>
+    <qualifier>collection_id</qualifier>
+    <scope_note>The dataset collecton id</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>globus</schema>
+    <element>publication</element>
+    <qualifier>community</qualifier>
+    <scope_note>The dataset community</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>globus</schema>
+    <element>publication</element>
+    <qualifier>community_id</qualifier>
+    <scope_note>The dataset community id</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>globus</schema>
+    <element>publication</element>
+    <qualifier>item_id</qualifier>
+    <scope_note>The dataset item id</scope_note>
+  </dc-type>
+</dspace-dc-types>

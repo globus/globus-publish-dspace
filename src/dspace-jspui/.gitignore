@@ -1,0 +1,5 @@
+/target
+.settings
+/bin
+**/src/main
+**/src/test

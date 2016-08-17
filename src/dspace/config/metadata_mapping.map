@@ -1,0 +1,10 @@
+delimiter=/
+dc.title=datacite:title
+dc.contributor.author=datacite:contributor/author
+dc.date.issued=datacite:dateType/Issued
+dc.publisher=datacite:publisher
+dc.subject=datacite:subject
+dc.contributor=datacite:contributor
+dc.language=datacite:language
+dc.description=datacite:description
+dc.identifier.uri=datacite:identifier

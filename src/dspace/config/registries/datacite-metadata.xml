@@ -1,0 +1,845 @@
+<!-- datacite-metadata.xsl
+ *
+ * Dublin core realization of the datacite metadata schema.
+ * This is based on version 3.1 of the datacite schema at:
+ * http://schema.datacite.org/meta/kernel-3/doc/DataCite-MetadataKernel_v3.1.pdf
+ *
+ *-->
+
+<dspace-dc-types>
+  <dc-schema>
+          <name>datacite</name>
+          <namespace>http://datacite.org/schema/kernel-3</namespace>
+  </dc-schema>
+
+
+  <dspace-header>
+    <title>Datacite Types Registry for Globus</title>
+    <contributor.author>Globus</contributor.author>
+    <date.created>2014-11-07</date.created>
+    <description>
+        Mapping of Datacite schema elements to DC for use in DSpace
+    </description>
+  </dspace-header>
+
+  <!-- REQUIRED FIELDS BEGIN HERE -->
+
+  <dc-type>
+    <schema>datacite</schema>
+    <element>identifier</element>
+    <scope_note>The Identifier is a unique string that identifies a resource.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>datacite</schema>
+    <element>Identifier</element>
+    <qualifier>identifierType</qualifier>
+    <scope_note>The type of the Identifier.</scope_note>
+  </dc-type>
+
+<!-- Cardinality: 1-n Notes: May be a corporate/institutional or personal
+name. Note: DataCite infrastructure supports up to between 8000‐10000 names.
+For name lists above that size, consider attribution via linking to the
+related metadata -->
+
+  <dc-type>
+    <schema>datacite</schema>
+    <element>creator</element>
+    <scope_note>The main researchers involved in producing the data, or the authors of the publication, in priority order</scope_note>
+  </dc-type>
+
+<!-- Cardinality: 1 Notes: Examples: Smith, John; Miller, Elizabeth The
+personal name format should be: family, given. Non‐roman names may be
+transliterated according to t -->
+
+  <dc-type>
+    <schema>datacite</schema>
+    <element>creator</element>
+    <qualifier>creatorName</qualifier>
+    <scope_note>The name of the creator.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>datacite</schema>
+    <element>creator</element>
+    <qualifier>nameIdentifier</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>datacite</schema>
+    <element>creator</element>
+    <qualifier>nameIdentifierScheme</qualifier>
+    <scope_note></scope_note>
+</dc-type>
+
+<dc-type>
+    <schema>datacite</schema>
+    <element>creator</element>
+    <qualifier>schemeURI</qualifier>
+    <scope_note></scope_note>
+</dc-type>
+
+<dc-type>
+    <schema>datacite</schema>
+    <element>creator</element>
+    <qualifier>affiliation</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>title</element>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>title</element>
+        <qualifier>titleType</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>publisher</element>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>publicationyear</element>
+        <scope_note></scope_note>
+    </dc-type>
+
+  <!-- OPTIONAL FIELDS BEGIN HERE -->
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>subject</element>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>subject</element>
+        <qualifier>subjectScheme</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>subject</element>
+        <qualifier>schemeURI</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>contributor</element>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <!-- We need qualifiers matching all the enumerated values for use
+         in DSpace forms -->
+
+    <dc-type>
+      <schema>datacite</schema>
+      <element>contributor</element>
+      <qualifier>ContactPerson</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>contributor</element>
+      <qualifier>DataCollector</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>contributor</element>
+      <qualifier>DataCurator</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>contributor</element>
+      <qualifier>DataManager</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>contributor</element>
+      <qualifier>Distributor</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>contributor</element>
+      <qualifier>Editor</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>contributor</element>
+      <qualifier>Funder</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>contributor</element>
+      <qualifier>HostingInstitution</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>contributor</element>
+      <qualifier>Producer</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>contributor</element>
+      <qualifier>ProjectLeader</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>contributor</element>
+      <qualifier>ProjectManager</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>contributor</element>
+      <qualifier>ProjectMember</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>contributor</element>
+      <qualifier>RegistrationAgency</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>contributor</element>
+      <qualifier>RegistrationAuthority</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>contributor</element>
+      <qualifier>RelatedPerson</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>contributor</element>
+      <qualifier>Researcher</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>contributor</element>
+      <qualifier>ResearchGroup</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>contributor</element>
+      <qualifier>RightsHolder</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>contributor</element>
+      <qualifier>Sponsor</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>contributor</element>
+      <qualifier>Supervisor</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>contributor</element>
+      <qualifier>WorkPackageLeader</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>contributor</element>
+      <qualifier>Other</qualifier>
+    </dc-type>
+
+
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>contributor</element>
+        <qualifier>contributorType</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>contributor</element>
+        <qualifier>contributorName</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>contributor</element>
+        <qualifier>nameIdentifier</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>contributor</element>
+        <qualifier>nameIdentifierScheme</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>contributor</element>
+        <qualifier>schemeURI</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>contributor</element>
+        <qualifier>affiliation</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>date</element>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>dateType</element>
+        <qualifier>Accepted</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>dateType</element>
+        <qualifier>Available</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>dateType</element>
+        <qualifier>Copyrighted</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>dateType</element>
+        <qualifier>Collected</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>dateType</element>
+        <qualifier>Created</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>dateType</element>
+        <qualifier>Issued</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>dateType</element>
+        <qualifier>Submitted</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>dateType</element>
+        <qualifier>Updated</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>dateType</element>
+        <qualifier>Valid</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>language</element>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>resourcetype</element>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <!-- Dspace will encode things from the dropdown using qualifiers,
+         so we have to have qualifiers on resourcetype for every
+         actual type -->
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>resourcetype</element>
+        <qualifier>Audiovisual</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>datacite</schema>
+        <element>resourcetype</element>
+        <qualifier>Collection</qualifier>
+        <scope_note></scope_note>
+      </dc-type>
+    <dc-type>
+	    <schema>datacite</schema>
+	    <element>resourcetype</element>
+      <qualifier>Dataset</qualifier>
+    </dc-type>
+    <dc-type>
+	    <schema>datacite</schema>
+	    <element>resourcetype</element>
+      <qualifier>Event</qualifier>
+    </dc-type>
+    <dc-type>
+	    <schema>datacite</schema>
+	    <element>resourcetype</element>
+      <qualifier>Image</qualifier>
+    </dc-type>
+    <dc-type>
+	    <schema>datacite</schema>
+	    <element>resourcetype</element>
+      <qualifier>InteractiveResource</qualifier>
+    </dc-type>
+    <dc-type>
+	    <schema>datacite</schema>
+	    <element>resourcetype</element>
+      <qualifier>Model</qualifier>
+    </dc-type>
+    <dc-type>
+	    <schema>datacite</schema>
+	    <element>resourcetype</element>
+      <qualifier>PhysicalObject</qualifier>
+    </dc-type>
+    <dc-type>
+	    <schema>datacite</schema>
+	    <element>resourcetype</element>
+      <qualifier>Service</qualifier>
+    </dc-type>
+    <dc-type>
+	    <schema>datacite</schema>
+	    <element>resourcetype</element>
+      <qualifier>Software</qualifier>
+    </dc-type>
+    <dc-type>
+	    <schema>datacite</schema>
+	    <element>resourcetype</element>
+      <qualifier>Sound</qualifier>
+    </dc-type>
+    <dc-type>
+	    <schema>datacite</schema>
+	    <element>resourcetype</element>
+      <qualifier>Text</qualifier>
+    </dc-type>
+    <dc-type>
+	    <schema>datacite</schema>
+	    <element>resourcetype</element>
+      <qualifier>Workflow</qualifier>
+    </dc-type>
+    <dc-type>
+	    <schema>datacite</schema>
+	    <element>resourcetype</element>
+      <qualifier>Other</qualifier>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>resourcetype</element>
+        <qualifier>resourcetypeGeneral</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>alternateidentifier</element>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>alternateidentifier</element>
+        <qualifier>alternateidentifierType</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>relatedidentifier</element>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <!-- Once again we need to put the types of identifiers in as a list of qualifiers on this type -->
+
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relatedidentifier</element>
+      <qualifier>ARK</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relatedidentifier</element>
+      <qualifier>arXiv</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relatedidentifier</element>
+      <qualifier>bibcode</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relatedidentifier</element>
+      <qualifier>DOI</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relatedidentifier</element>
+      <qualifier>EAN13</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relatedidentifier</element>
+      <qualifier>EISSN</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relatedidentifier</element>
+      <qualifier>Handle</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relatedidentifier</element>
+      <qualifier>ISBN</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relatedidentifier</element>
+      <qualifier>ISSN</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relatedidentifier</element>
+      <qualifier>ISTC</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relatedidentifier</element>
+      <qualifier>LISSN</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relatedidentifier</element>
+      <qualifier>LSID</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relatedidentifier</element>
+      <qualifier>PMID</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relatedidentifier</element>
+      <qualifier>PURL</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relatedidentifier</element>
+      <qualifier>UPC</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relatedidentifier</element>
+      <qualifier>URL</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relatedidentifier</element>
+      <qualifier>URN</qualifier>
+    </dc-type>
+
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relatedidentifier</element>
+      <qualifier>relatedidentifierType</qualifier>
+      <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relatedidentifier</element>
+      <qualifier>relationType</qualifier>
+      <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relatedidentifier</element>
+      <qualifier>relatedMetadataScheme</qualifier>
+      <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relatedidentifier</element>
+      <qualifier>schemeURI</qualifier>
+      <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relatedidentifier</element>
+      <qualifier>schemeType</qualifier>
+      <scope_note></scope_note>
+    </dc-type>
+
+    <!-- We need to bring relationtype out to an element so that we
+         can define all of the types of relations as qualifier values
+         on the relation type -->
+
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relationtype</element>
+      <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relationtype</element>
+      <qualifier>IsCitedBy</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relationtype</element>
+      <qualifier>Cites</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relationtype</element>
+      <qualifier>IsSupplementTo</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relationtype</element>
+      <qualifier>IsSupplementedBy</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relationtype</element>
+      <qualifier>IsContinuedBy</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relationtype</element>
+      <qualifier>Continues</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relationtype</element>
+      <qualifier>HasMetadata</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relationtype</element>
+      <qualifier>IsMetadataFor</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relationtype</element>
+      <qualifier>IsNewVersionOf</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relationtype</element>
+      <qualifier>IsPreviousVersionOf</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relationtype</element>
+      <qualifier>IsPartOf</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relationtype</element>
+      <qualifier>HasPart</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relationtype</element>
+      <qualifier>IsReferencedBy</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relationtype</element>
+      <qualifier>References</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relationtype</element>
+      <qualifier>IsDocumentedBy</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relationtype</element>
+      <qualifier>Documents</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relationtype</element>
+      <qualifier>IsCompiledBy</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relationtype</element>
+      <qualifier>Compiles</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relationtype</element>
+      <qualifier>IsVariantFormOf</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relationtype</element>
+      <qualifier>IsOriginalFormOf</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relationtype</element>
+      <qualifier>IsIdenticalTo</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relationtype</element>
+      <qualifier>IsReviewedBy</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relationtype</element>
+      <qualifier>Reviews</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relationtype</element>
+      <qualifier>IsDerivedFrom</qualifier>
+    </dc-type>
+    <dc-type>
+      <schema>datacite</schema>
+      <element>relationtype</element>
+      <qualifier>IsSourceOf</qualifier>
+    </dc-type>
+
+    <!-- OPTIONAL FIELDS BEGIN HERE -->
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>size</element>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>format</element>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>version</element>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>rights</element>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>rights</element>
+        <qualifier>rightsURI</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>description</element>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>descriptionType</element>
+        <qualifier>Abstract</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>descriptionType</element>
+        <qualifier>Methods</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>descriptionType</element>
+        <qualifier>SeriesInformation</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>descriptionType</element>
+        <qualifier>TableOfContents</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>descriptionType</element>
+        <qualifier>Other</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>geolocation</element>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>geolocation</element>
+        <qualifier>geolocationPoint</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>geolocation</element>
+        <qualifier>geolocationBox</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>datacite</schema>
+        <element>geolocation</element>
+        <qualifier>geolocationPlace</qualifier>
+        <scope_note></scope_note>
+    </dc-type>
+
+</dspace-dc-types>

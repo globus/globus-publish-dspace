@@ -1,0 +1,4 @@
+/target
+.settings
+**/*.swp
+**/src/main

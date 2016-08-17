@@ -1,0 +1,14 @@
+# E-mail sent to DSpace users when they register for an account
+#
+# Parameters: {0} is expanded to a special registration URL
+#
+# See org.dspace.core.Email for information on the format of this file.
+#
+Subject: Globus publication Account Registration
+
+User accounts cannot be created via Globus publication. Please sign up at globus.org.
+  {0}
+
+
+The Globus Team
+support@globus.org
