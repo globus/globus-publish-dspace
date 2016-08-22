@@ -3,7 +3,7 @@ Globus Data Publication Open Source
 
 This repository contains the source code for the [Globus Data Publication](https://www.globus.org/data-publication) service. Globus Data Publication enables sharing, description, discovery and long-term identification of datasets with public or controlled access, and is operated as a [service](https://publish.globus.org) by the Globus team. 
 
-This source code is provided as a demonstration of using [Globus platform](https://www.globus.org/platform) capabilities with new or existing service implementations. In particular, Globus Data Publication augments [DSpace](http://dspace.org) with Globus platform services for:
+This source code is provided as is without support as a demonstration of using [Globus platform](https://www.globus.org/platform) capabilities with new or existing service implementations. In particular, Globus Data Publication augments [DSpace](http://dspace.org) with Globus platform services for:
 
 * User identity and login using [Globus Auth](https://docs.globus.org/api/auth).
 * Role based authorization using [Globus groups](https://www.globus.org/groups)
