@@ -1,0 +1,3 @@
+In addition to the Globus Team, the following have made contributions to this code base:
+
+* Canadian Federated Research Data Repository project—a partnership of Compute Canada and the Canadian Association of Research Libraries. Project Team (2016): Todd Trann, Adam McKenzie, Mike Winter (University of Saskatchewan); and Alex Garnett (Simon Fraser University).
