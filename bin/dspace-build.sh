@@ -116,7 +116,9 @@ done
 
 IFS=$oldIFS
 
-dspaceTargetDir=$dspaceSrc/dspace/target/dspace-4.2-build
+dspaceTargetDir=$dspaceSrc/dspace/target/dspace-build
+
+(cd $devroot/lib && mvn install:install-file -Dfile=handle-client.jar -DgroupId=net.handle -DartifactId=handle-client -Dversion=7.3.1 -Dpackaging=jar)
 
 (cd $devroot/src/globus-client-java && mvn install -DskipTests)
 
@@ -131,13 +133,6 @@ fi
 
 if [ $? = 1 ]; then
     echo Build dspace-api.jar Failed, exiting
-    exit 1
-fi
-
-(cd $devroot/src/globus-rest && mvn package -DbuildTarget=$dspaceTargetDir/webapps -DskipTests)
-
-if [ $? = 1 ]; then
-    echo Build of globus-rest Failed, exiting
     exit 1
 fi
 
