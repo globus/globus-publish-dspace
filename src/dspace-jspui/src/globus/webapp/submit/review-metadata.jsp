@@ -137,7 +137,7 @@
 
           row.append("<div class=\"row\">");
           row.append("<span class=\"metadataFieldLabel col-md-4 \">");
-          row.append(inputs[z].getLabel());
+          row.append(UIUtil.getLocalizedValue(pageContext, inputs[z].getLabel()));
           row.append("</span>");
           row.append("<span class=\"metadataFieldValue col-md-8\">");
 
@@ -173,7 +173,7 @@
                                                                 storedVal);
                    if (displayVal != null && !displayVal.equals(""))
                    {
-                       row.append(Utils.addEntities(displayVal));
+                       row.append(UIUtil.getLocalizedValue(pageContext, Utils.addEntities(displayVal)));
                    }
                    else if (storedVal != null && !storedVal.equals(""))
                    {
@@ -195,7 +195,7 @@
                         String displayValue = Utils.addEntities(values[i].value);
                         if (displayQual != null)
                         {
-                            row.append(displayQual + ":" + displayValue);
+                            row.append(UIUtil.getLocalizedValue(pageContext, displayQual) + ":" + UIUtil.getLocalizedValue(pageContext, displayValue));
                         }
                         else
                         {
@@ -205,7 +205,7 @@
                 }
                 else
                 {
-                   row.append(Utils.addEntities(values[i].value));
+                   row.append(Utils.addEntities(UIUtil.getLocalizedValue(pageContext, values[i].value)));
                 }
                                 if (isAuthorityControlled)
                 {

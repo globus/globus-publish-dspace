@@ -220,7 +220,6 @@
 %>
 	<div class="col-md-6">
 
-        <%-- <h2>Collections in this community</h2> --%>
 		<h3><fmt:message key="jsp.community-home.heading2"/></h3>
 		<div class="list-group">
 <%

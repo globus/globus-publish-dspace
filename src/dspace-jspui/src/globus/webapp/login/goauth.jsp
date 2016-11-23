@@ -58,12 +58,9 @@
 	    sessionId = "";
 	}
 %>
-     <h4>Globus enables publication of large datasets with associated metadata to facilitate discovery.</h4>
+     <h4><fmt:message key="jsp.goauth.description"/></h4>
      <p align="center" style="margin-top:75px;">
 
-        <a href="<%= Globus.getGoAuthRedirectUrl(request)%>" style="margin-left: 400px;" class="btn btn-primary col-md-3">Get Started</a>
-  <%--
-        <a href="<%= (Globus.GLOBUS_GOAUTH_URL + sessionId)%>" style="margin-left: 400px;" class="btn btn-primary col-md-3">Get Started</a>
---%>
+        <a href="<%= Globus.getGoAuthRedirectUrl(request)%>" style="margin-left: 400px;" class="btn btn-primary col-md-3"><fmt:message key="jsp.goauth.get.started"/></a>
     </p>
 </dspace:layout>

@@ -53,10 +53,10 @@
 
 		<table class="table" align="center" summary="Table listing unfinished submissions">
 			<tr>
-				<th id="t10" class="EvenRowOddCol">Status</th>
-				<th id="t12" class="EvenRowOddCol">Start Time</th>
-				<th id="t13" class="EvenRowEvenCol">Completion Time</th>
-				<th id="t12" class="EvenRowOddCol">Bytes Transferred</th>
+				<th id="t10" class="EvenRowOddCol"><fmt:message key="jsp.globus-transfer-artifact-table.status"/></th>
+				<th id="t12" class="EvenRowOddCol"><fmt:message key="jsp.globus-transfer-artifact-table.start.time"/></th>
+				<th id="t13" class="EvenRowEvenCol"><fmt:message key="jsp.globus-transfer-artifact-table.completion.time"/></th>
+				<th id="t12" class="EvenRowOddCol"><fmt:message key="jsp.globus-transfer-artifact-table.bytes.transferred"/></th>
 			</tr>
 
 	<%

@@ -38,11 +38,11 @@
 %>
 <dspace:layout titlekey="jsp.tombstone.title">
 
-    <h1>Transfer Started</h1>
+    <h1><fmt:message key="jsp.globus.transfer.started.title"/></h1>
 
-    <p>Your transfer has been started with ID: <a href="https://www.globus.org/xfer/ViewActivity"><%=submissionID %> </a></p>
+    <p><fmt:message key="jsp.globus.transfer.started.id"/> <a href="https://www.globus.org/xfer/ViewActivity"><%=submissionID %> </a></p>
     <p align="center">
-        <a href="<%= path %>/">Go to Dataset</a>
+        <a href="<%= path %>/"><fmt:message key="jsp.globus.transfer.started.dataset"/></a>
     </p>
 
     <p align="center">
