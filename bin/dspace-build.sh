@@ -118,7 +118,7 @@ IFS=$oldIFS
 
 dspaceTargetDir=$dspaceSrc/dspace/target/dspace-build
 
-(cd $devroot/lib && mvn install:install-file -Dfile=handle-client.jar -DgroupId=net.handle -DartifactId=handle-client -Dversion=7.3.1 -Dpackaging=jar)
+(cd $devroot/lib && ./install-jars-to-maven.sh)
 
 (cd $devroot/src/globus-client-java && mvn install -DskipTests)
 
