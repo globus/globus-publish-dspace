@@ -29,7 +29,7 @@
 --%>
 
 <%--
-  - Display the form to refine the simple-search and dispaly the results of the search
+  - Display the form to refine the simple-search and display the results of the search
   -
   - Attributes to pass in:
   -
@@ -693,31 +693,33 @@ else
 	List<DiscoverySearchFilterFacet> facetsConf = (List<DiscoverySearchFilterFacet>) request.getAttribute("facetsConfig");
 	Map<String, Boolean> showFacets = new HashMap<String, Boolean>();
 
-	for (DiscoverySearchFilterFacet facetConf : facetsConf)
-	{
-	    String f = facetConf.getIndexFieldName();
-	    List<FacetResult> facet = qResults.getFacetResult(f);
-	    if (facet.size() == 0)
-	    {
-	        facet = qResults.getFacetResult(f+".year");
+    if (qResults != null) {
+		for (DiscoverySearchFilterFacet facetConf : facetsConf)
+		{
+	    	String f = facetConf.getIndexFieldName();
+		    List<FacetResult> facet = qResults.getFacetResult(f);
 		    if (facet.size() == 0)
 		    {
-		        showFacets.put(f, false);
-		        continue;
+		        facet = qResults.getFacetResult(f+".year");
+			    if (facet.size() == 0)
+			    {
+			        showFacets.put(f, false);
+			        continue;
+			    }
 		    }
-	    }
-	    boolean showFacet = false;
-	    for (FacetResult fvalue : facet)
-	    {
-			if(!appliedFilterQueries.contains(f+"::"+fvalue.getFilterType()+"::"+fvalue.getAsFilterQuery()))
+		    boolean showFacet = false;
+		    for (FacetResult fvalue : facet)
 		    {
-		        showFacet = true;
-		        break;
+				if(!appliedFilterQueries.contains(f+"::"+fvalue.getFilterType()+"::"+fvalue.getAsFilterQuery()))
+			    {
+			        showFacet = true;
+			        break;
+			    }
 		    }
-	    }
-	    showFacets.put(f, showFacet);
-	    brefine = brefine || showFacet;
-	}
+		    showFacets.put(f, showFacet);
+		    brefine = brefine || showFacet;
+		}
+    }
 	if (brefine) {
 %>
 
