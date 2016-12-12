@@ -20,6 +20,7 @@ public interface TransferInterface extends GlobusRestInterface
         user,
         identity,
         group,
+        anonymous,
         all_authenticated_users;
     }
 
