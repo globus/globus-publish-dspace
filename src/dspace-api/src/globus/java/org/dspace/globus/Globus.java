@@ -95,8 +95,6 @@ public class Globus
 
     private static final String GLOBUS_USER_TOKEN_CONFIG_PROP = "token";
 
-    private static final String GLOBUS_GOAUTH_CLIENTID_CONFIG_PROP = "goauth.clientId";
-
     public static final String PUBLICATION_DATA_DIRECTORY = "publication.data.directory";
 
     public static final String ARTIFACT_FILE_NAME = "artifact.file.name";
@@ -461,27 +459,6 @@ public class Globus
         }
         return request.getScheme() + "://" + request.getServerName() + port
                 + request.getContextPath();
-    }
-
-    /**
-     * Get the URL to redirect to to perform GOAuth authentication, followed by
-     * a re-direct back to the page initially requested.
-     *
-     * @param request
-     *            The request object on the access that requires GOAuth
-     *            authentication prior to accessing the page.
-     * @return The URL (as a String) that can be accessed to perform GOAuth
-     *         authentication with a return back to this page following a
-     *         successful authentication.
-     */
-    public static String getGoAuthRedirectUrl(HttpServletRequest request)
-    {
-        String requestUrl = getPublishURL(request) + "/goauth-login";
-        String clientId = getGlobusConfigProperty(
-                GLOBUS_GOAUTH_CLIENTID_CONFIG_PROP);
-        return String.format(getGlobusConfigProperty(GLOBUS_URL_PROP)
-                + "/OAuth?response_type=code&client_id=%s" + "&redirect_uri=%s",
-                clientId, requestUrl);
     }
 
     public static String encodeSharedEndpointName(String endpoint)

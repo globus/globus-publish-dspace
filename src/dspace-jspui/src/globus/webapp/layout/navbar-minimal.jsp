@@ -46,6 +46,7 @@
 <%@ page import="org.dspace.content.Community" %>
 <%@ page import="org.dspace.eperson.EPerson" %>
 <%@ page import="org.dspace.globus.Globus" %>
+<%@ page import="org.dspace.globus.GlobusAuth" %>
 <%@ page import="org.dspace.core.ConfigurationManager" %>
 <%@ page import="org.dspace.browse.BrowseIndex" %>
 <%@ page import="org.dspace.browse.BrowseInfo" %>
@@ -99,7 +100,7 @@
 		<%
     } else {
 		%>
-			<li class="dropdown"><a href="<%= request.getContextPath() %>/goauth-login">Log In</a></li>
+			<li class="dropdown"><a href="<%= GlobusAuth.getAuthRedirectURL(request)%>">Log In</a></li>
 
              <%--<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <fmt:message key="jsp.layout.navbar-default.sign"/> <b class="caret"></b></a>--%>
 	<% } %>

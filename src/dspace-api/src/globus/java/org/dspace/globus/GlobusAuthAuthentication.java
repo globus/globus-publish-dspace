@@ -50,7 +50,7 @@ import org.globus.groups.GroupsInterface.MembershipStatus;
 
 
 /**
- * Authentication module for GOAuth based authentication. Based on the LDAP and Shib. authentication
+ * Authentication module for GlobusAuth based authentication. Based on the LDAP and Shib. authentication
  * modules shipped with DSpace.
  */
 
@@ -257,7 +257,7 @@ public class GlobusAuthAuthentication implements AuthenticationMethod
     public String loginPageURL(Context context, HttpServletRequest request,
                                HttpServletResponse response)
     {
-    	return response.encodeRedirectURL(Globus.getGoAuthRedirectUrl(request));
+        return GlobusAuth.getAuthRedirectURL(request);
     }
 
 
