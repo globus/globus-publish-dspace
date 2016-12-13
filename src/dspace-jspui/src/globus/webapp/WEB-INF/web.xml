@@ -341,10 +341,6 @@
     <servlet-name>ldap-login</servlet-name>
     <servlet-class>org.dspace.app.webui.servlet.LDAPServlet</servlet-class>
   </servlet>
- <servlet>
-    <servlet-name>goauth-login</servlet-name>
-    <servlet-class>org.dspace.globus.GOAuthServlet</servlet-class>
-  </servlet>
   <servlet>
     <servlet-name>oauth-login</servlet-name>
     <servlet-class>org.dspace.globus.GlobusAuthServlet</servlet-class>
@@ -702,10 +698,6 @@
   </servlet-mapping>
 
 
-  <servlet-mapping>
-    <servlet-name>goauth-login</servlet-name>
-    <url-pattern>/goauth-login</url-pattern>
-  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>oauth-login</servlet-name>
     <url-pattern>/oauth-login</url-pattern>

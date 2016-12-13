@@ -96,13 +96,13 @@ public class GlobusAuthServlet extends DSpaceServlet
                 }
                 else if (status == AuthenticationMethod.DUPLICATE_EMAIL){
                 	JSPManager.showJSP(request, response,
-                            "/login/goauth-duplicate-email.jsp");
+                            "/login/globus-duplicate-email.jsp");
                     return;
                 }
                 else 
                 {
                     JSPManager.showJSP(request, response,
-                            "/login/goauth-incorrect.jsp");
+                            "/login/globus-incorrect.jsp");
                     return;
                 }
 
@@ -111,7 +111,7 @@ public class GlobusAuthServlet extends DSpaceServlet
             {
                 log.warn("Error " + e);
                 JSPManager.showJSP(request, response,
-                        "/login/goauth-incorrect.jsp");
+                        "/login/globus-incorrect.jsp");
                 return;
             }
 
