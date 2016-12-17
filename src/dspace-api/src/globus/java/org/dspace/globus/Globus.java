@@ -452,13 +452,8 @@ public class Globus
 
     public static String getPublishURL(HttpServletRequest request)
     {
-        String port = "";
-        if (request.getServerPort() != 80 && request.getServerPort() != 443)
-        {
-            port = ":" + request.getServerPort();
-        }
-        return request.getScheme() + "://" + request.getServerName() + port
-                + request.getContextPath();
+        String baseUrl = ConfigurationManager.getProperty("dspace.url");
+        return baseUrl;
     }
 
     public static String encodeSharedEndpointName(String endpoint)
