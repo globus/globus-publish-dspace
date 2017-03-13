@@ -116,7 +116,7 @@ done
 
 IFS=$oldIFS
 
-dspaceTargetDir=$dspaceSrc/dspace/target/dspace-build
+dspaceTargetDir=$dspaceSrc/dspace/target/dspace-4.2-build
 
 (cd $devroot/lib && ./install-jars-to-maven.sh)
 
