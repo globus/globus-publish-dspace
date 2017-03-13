@@ -128,6 +128,8 @@ public class Globus
     public static final String CONFIG_GLOBUS_ENDPOINT_NAME = "globus.endpoint.name";
 
     public static final String CONFIG_GLOBUS_SHARE_PATH_PREFIX = "globus.share.path.prefix";
+    
+    public static final String CONFIG_GLOBUS_DATASEARCH_URL = "globus.datasearch.url";
 
     // Config properties for storage of input forms and workflows
     public static final String GLOBUS_FORMS_DIR_CONFIG_PROP = "globus.forms.dir";
@@ -635,8 +637,9 @@ public class Globus
         }
     }
 
-    public static String getAllMetadata(Context context, Item item,
-            Collection collection)
+    
+    public static JSONObject getAllMetadataAsJSONObject(Context context, 
+            Item item, Collection collection)
     {
         try
         {
@@ -708,13 +711,24 @@ public class Globus
                 jsonLDContext.put(s, metadataSchema.getNamespace());
             }
             dataset.put("@context", jsonLDContext);
-            return dataset.toString();
+            return dataset;
         }
         catch (Exception e)
         {
             logger.error("Error getting item metadata " + e);
         }
-        return "";
+        return null;        
+    }
+
+    public static String getAllMetadataAsString(Context context, Item item,
+            Collection collection)
+    {
+        JSONObject jso = getAllMetadataAsJSONObject(context, item, collection);
+        if (jso != null) {
+            return jso.toString();
+        } else {
+            return null;
+        }
     }
 
     public static boolean waitForTransferCompletion(GlobusClient globusClient,

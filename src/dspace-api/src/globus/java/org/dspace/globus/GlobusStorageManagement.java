@@ -546,7 +546,7 @@ public class GlobusStorageManagement
         }
 
         // Get all item metadata
-        String metadata = Globus.getAllMetadata(context, item, collection);
+        String metadata = Globus.getAllMetadataAsString(context, item, collection);
         String stagingMethod = Globus.getGlobusConfigProperty(Globus.STAGING_METHOD);
         if (stagingMethod == null) { stagingMethod = "s3"; }
         
