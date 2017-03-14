@@ -170,7 +170,12 @@ public class GlobusDataSearchServiceImpl extends SolrServiceImpl
     public void indexContent(Context context, DSpaceObject dso, boolean force)
             throws SQLException
     {
-        super.indexContent(context, dso, force);
+        SQLException superException = null;
+        try {
+            super.indexContent(context, dso, force);
+        } catch (SQLException sqle) {
+            superException = sqle;
+        }
         // We are indexing, so we want to do it as the publish user, so don't
         // pass the context even though we have it        
         GlobusDataSearchClient searchClient = getSearchClient(null);
@@ -189,6 +194,10 @@ public class GlobusDataSearchServiceImpl extends SolrServiceImpl
             }
         } else {
             log.info("Not indexing non-Item object: " + dso);
+        }
+        if (superException != null) {
+            log.info("Re-raising Solr indexing exception: " + superException);
+            throw superException;
         }
     }
 
