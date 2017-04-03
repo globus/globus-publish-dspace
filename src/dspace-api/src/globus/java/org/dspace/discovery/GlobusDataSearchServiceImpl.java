@@ -134,6 +134,9 @@ public class GlobusDataSearchServiceImpl extends SolrServiceImpl
     {
         JSONObject content = Globus.getAllMetadataAsJSONObject(context, item, 
                 coll);
+        // Add the resourceType
+        content.put("https://schema.labs.datacite.org/meta/kernel-4.0/metadata.xsd#resourceTypeGeneral", 
+                "dataset");
         // Do a brute-force filtering of content that it isn't in the right format
         List<String> keysToRemvoe = new ArrayList<String>();
         for (Object keyObj : content.keySet())
