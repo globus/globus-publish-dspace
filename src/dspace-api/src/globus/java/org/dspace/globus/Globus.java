@@ -88,12 +88,20 @@ public class Globus
     private static final String GLOBUS_GROUP_API_PROP = "group.api";
 
     private static final String GLOBUS_IDENTITY_API_PROP = "identity.api";
+    
+    // Auth related config props
+    
+    private static final String GLOBUS_PRIV_AUTH_METHOD_CONFIG_PROP = "globus.priv_auth.method"; 
 
     static final String GLOBUS_USER_CONFIG_PROP = "username";
 
     private static final String GLOBUS_USER_PWD_CONFIG_PROP = "password";
 
     private static final String GLOBUS_USER_TOKEN_CONFIG_PROP = "token";
+
+    public static final String GLOBUS_AUTH_CLIENT_SECRET = "globus.client.secret";
+
+    public static final String GLOBUS_AUTH_CLIENT_ID = "globus.client.id";
 
     public static final String PUBLICATION_DATA_DIRECTORY = "publication.data.directory";
 
@@ -937,28 +945,54 @@ public class Globus
         if (privClient == null || System.currentTimeMillis() > privClientExpiration)
         {
             GlobusAuthToken authToken = null;
-            String privUserName = ConfigurationManager.getProperty(
-                    GLOBUS_AUTH_CONFIG_MODULE, GLOBUS_USER_CONFIG_PROP);
-            String privPassword = ConfigurationManager.getProperty(
-                    GLOBUS_AUTH_CONFIG_MODULE, GLOBUS_USER_PWD_CONFIG_PROP);
-            if (privUserName != null && privPassword != null)
-            {
-                authToken = GlobusAuth.getAuthTokenFromUsernamePassword(privUserName, privPassword);
+            
+            String authMethod = ConfigurationManager.getProperty(
+                    GLOBUS_AUTH_CONFIG_MODULE,
+                    GLOBUS_PRIV_AUTH_METHOD_CONFIG_PROP);
+            
+            if (authMethod == null) {
+                // We'll assume username and password is the default for
+                // backward compatibility with older installs that are
+                // missing this prop
+                authMethod = "username_pw";
             }
+            
+            switch (authMethod) {
+                case "username_pw":
+                    String privUserName = ConfigurationManager.getProperty(
+                            GLOBUS_AUTH_CONFIG_MODULE, GLOBUS_USER_CONFIG_PROP);
+                    String privPassword = ConfigurationManager.getProperty(
+                            GLOBUS_AUTH_CONFIG_MODULE, GLOBUS_USER_PWD_CONFIG_PROP);
+                    if (privUserName != null && privPassword != null)
+                    {
+                        authToken = GlobusAuth.getAuthTokenFromUsernamePassword(privUserName, privPassword);
+                    }
 
-            if (authToken == null) {                
-                String privTokenJson = ConfigurationManager.getProperty(GLOBUS_AUTH_CONFIG_MODULE,
-                        GLOBUS_USER_TOKEN_CONFIG_PROP);
-                try
-                {
-                    authToken = GlobusAuthToken.fromJson(privTokenJson);
-                }
-                catch (IOException e)
-                {
-                    logger.warn("Failed to create AuthToken from Json: " + privTokenJson);
-                }
+                    break;
+                case "client_creds":
+                    String clientId = ConfigurationManager.getProperty(
+                            GLOBUS_AUTH_CONFIG_MODULE, GLOBUS_AUTH_CLIENT_ID);
+                    String clientSecret = ConfigurationManager.getProperty(
+                            GLOBUS_AUTH_CONFIG_MODULE, GLOBUS_AUTH_CLIENT_SECRET);
+                    if (clientId != null && clientSecret != null) 
+                    {
+                        authToken = GlobusAuth.getAuthTokenFromClientCredentials(clientId, clientSecret);
+                    }
+                    break;
+                case "stored_token":
+                    String privTokenJson = ConfigurationManager.getProperty(GLOBUS_AUTH_CONFIG_MODULE,
+                            GLOBUS_USER_TOKEN_CONFIG_PROP);
+                    try
+                    {
+                        authToken = GlobusAuthToken.fromJson(privTokenJson);
+                    }
+                    catch (IOException e)
+                    {
+                        logger.warn("Failed to create AuthToken from Json: " + privTokenJson);
+                    }
+                    break;
             }
-
+            
             if (authToken != null)
             {
                 privClient = createClient(authToken);

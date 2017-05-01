@@ -222,6 +222,29 @@ public class GlobusAuthToken extends GlobusEntity
         }
     }
 
+    public static GlobusAuthToken clientCredentialGrant(String OAuthTokenUrl,
+                                                        String clientId,
+                                                        String clientSecret,
+                                                        String authScope,
+                                                        String clientCreds)
+    throws GlobusClientException
+    {
+        try {
+            OAuthClientRequest oauthRequest = OAuthClientRequest
+                .tokenLocation(OAuthTokenUrl)
+                .setGrantType(GrantType.CLIENT_CREDENTIALS)
+                .setClientId(clientId)
+                .setClientSecret(clientSecret)
+                .setScope(authScope)
+                .buildBodyMessage();
+
+            return OauthTokenRequest(OAuthTokenUrl, clientCreds, oauthRequest);
+
+        } catch (Exception e) {
+            throw new GlobusClientException("Password Grant failed: " + e);
+        }
+        
+    }
 
     /**
      * @param bearerToken

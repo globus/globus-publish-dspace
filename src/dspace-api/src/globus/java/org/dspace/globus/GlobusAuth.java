@@ -34,10 +34,6 @@ public class GlobusAuth
 
     public static final String GLOBUS_AUTH_CLIENT_CREDS = "globus.client.base64.creds";
 
-    public static final String GLOBUS_AUTH_CLIENT_ID = "globus.client.id";
-
-    public static final String GLOBUS_AUTH_CLIENT_SECRET = "globus.client.secret";
-
     public static final String GLOBUS_AUTH_SCOPE = "globus.auth.scope";
 
     public static final String GLOBUS_AUTH_USER_SCOPE = "globus.user.scope";
@@ -72,7 +68,7 @@ public class GlobusAuth
                                     + getGlobusAuthConfigProperty(
                                             GLOBUS_AUTH_AUTH_PATH))
                     .setClientId(
-                            getGlobusAuthConfigProperty(GLOBUS_AUTH_CLIENT_ID))
+                            getGlobusAuthConfigProperty(Globus.GLOBUS_AUTH_CLIENT_ID))
                     .setScope(getGlobusAuthConfigProperty(GLOBUS_AUTH_SCOPE))
                     .setRedirectURI(redirect_url).setResponseType("code")
                     .buildQueryMessage();
@@ -98,7 +94,7 @@ public class GlobusAuth
                     GLOBUS_AUTH_OAUTH_URL)
                     + getGlobusAuthConfigProperty(GLOBUS_AUTH_TOKEN_PATH);
             String clientId = getGlobusAuthConfigProperty(
-                    GLOBUS_AUTH_CLIENT_ID);
+                    Globus.GLOBUS_AUTH_CLIENT_ID);
             String scope = getGlobusAuthConfigProperty(GLOBUS_AUTH_SCOPE);
             String clientCreds = getGlobusAuthConfigProperty(
                     GLOBUS_AUTH_CLIENT_CREDS);
@@ -127,6 +123,25 @@ public class GlobusAuth
         catch (GlobusClientException e)
         {
             log.error("Password Grant returned: " + e);
+            return null;
+        }
+    }
+
+    public static GlobusAuthToken getAuthTokenFromClientCredentials(String clientId, String clientSecret)
+    {
+        String oauthTokenUrl = getGlobusAuthConfigProperty(
+                GLOBUS_AUTH_OAUTH_URL)
+                + getGlobusAuthConfigProperty(GLOBUS_AUTH_TOKEN_PATH);
+        String scope = getGlobusAuthConfigProperty(GLOBUS_AUTH_SCOPE);
+        String clientCreds = getGlobusAuthConfigProperty(
+                GLOBUS_AUTH_CLIENT_CREDS);
+        try
+        {
+            return GlobusAuthToken.clientCredentialGrant(oauthTokenUrl, clientId, clientSecret, scope, clientCreds);
+        }
+        catch (GlobusClientException e)
+        {
+            log.error("ClientCredential Grant returned: " + e);
             return null;
         }
     }
