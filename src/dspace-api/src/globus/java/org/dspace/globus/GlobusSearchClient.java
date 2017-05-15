@@ -19,15 +19,24 @@ import org.json.JSONObject;
  * @author pruyne
  *
  */
-public class GlobusDataSearchClient extends GlobusClient
+public class GlobusSearchClient extends GlobusClient
 {
-    private static final Logger log = Logger.getLogger(GlobusDataSearchClient.class);
+    private static final Logger log = Logger.getLogger(GlobusSearchClient.class);
 
-    public GlobusDataSearchClient(GlobusAuthToken token, 
+    private String indexName;
+    
+    public GlobusSearchClient(GlobusAuthToken token, 
             String searchServiceUrl)
+    {
+        this(token, searchServiceUrl, null);
+    }
+    
+    public GlobusSearchClient(GlobusAuthToken token, String searchServiceUrl,
+            String indexName) 
     {
         super(token);
         setRootUrlForRequestType(RequestType.search, searchServiceUrl);
+        this.indexName = indexName;
     }
     
     public boolean index(JSONObject content, String subject, String[] visibleTo)
@@ -52,7 +61,12 @@ public class GlobusDataSearchClient extends GlobusClient
         gingest.put("ingest_data", gmeta);
 
         log.info("Indexing entry: " + gingest);
-        Object ingestReply = doPost(RequestType.search, "/ingest", 200, 
+        String ingestUrl = "/ingest";
+        if (indexName != null) {
+            ingestUrl = ingestUrl + "/" + indexName;
+        }
+        
+        Object ingestReply = doPost(RequestType.search, ingestUrl, 200, 
                 null, gingest.toString(), Object.class);
         log.info("Index of " + subject + " returned " + ingestReply);
         return ingestReply != null;

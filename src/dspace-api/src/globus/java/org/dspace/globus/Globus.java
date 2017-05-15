@@ -137,7 +137,7 @@ public class Globus
 
     public static final String CONFIG_GLOBUS_SHARE_PATH_PREFIX = "globus.share.path.prefix";
     
-    public static final String CONFIG_GLOBUS_DATASEARCH_URL = "globus.datasearch.url";
+    public static final String CONFIG_GLOBUS_SEARCH_URL = "globus.search.url";
 
     // Config properties for storage of input forms and workflows
     public static final String GLOBUS_FORMS_DIR_CONFIG_PROP = "globus.forms.dir";
