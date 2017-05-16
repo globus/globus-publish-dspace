@@ -35,7 +35,7 @@ import org.dspace.core.Constants;
 import org.dspace.core.Context;
 import org.dspace.eperson.Group;
 import org.dspace.globus.Globus;
-import org.dspace.globus.GlobusDataSearchClient;
+import org.dspace.globus.GlobusSearchClient;
 import org.globus.GlobusClient;
 import org.globus.GlobusClientException;
 import org.globus.GlobusRestInterface.RequestType;
@@ -48,7 +48,7 @@ public class GlobusDataSearchServiceImpl extends SolrServiceImpl
     implements SearchService, IndexingService {
 
     private static final Logger log = Logger.getLogger(GlobusDataSearchServiceImpl.class);
-    GlobusDataSearchClient searchClient;
+    GlobusSearchClient searchClient;
 
     public GlobusDataSearchServiceImpl()
     {
@@ -56,7 +56,8 @@ public class GlobusDataSearchServiceImpl extends SolrServiceImpl
         log.info("Started GlobusDataSearchServiceImpl");
     }
 
-    private GlobusDataSearchClient getSearchClient(Context context)
+    private GlobusSearchClient getSearchClient(Context context, String baseUrl,
+            String indexName)
     {
         GlobusClient gc;
         if (context == null) {
@@ -64,10 +65,8 @@ public class GlobusDataSearchServiceImpl extends SolrServiceImpl
         } else {
             gc = Globus.getGlobusClientFromContext(context).getClient();
         }
-        String searchUrl = 
-                Globus.getGlobusConfigProperty(Globus.CONFIG_GLOBUS_DATASEARCH_URL);
         GlobusAuthToken searchToken = gc.getAuthTokenForRequestType(RequestType.search);
-        searchClient = new GlobusDataSearchClient(searchToken, searchUrl);
+        searchClient = new GlobusSearchClient(searchToken, baseUrl, indexName);
         return searchClient;
     }
     
@@ -179,24 +178,42 @@ public class GlobusDataSearchServiceImpl extends SolrServiceImpl
         } catch (SQLException sqle) {
             superException = sqle;
         }
-        // We are indexing, so we want to do it as the publish user, so don't
-        // pass the context even though we have it        
-        GlobusDataSearchClient searchClient = getSearchClient(null);
+        String searchUrlSpec = 
+                Globus.getGlobusConfigProperty(Globus.CONFIG_GLOBUS_SEARCH_URL);
+        if (searchUrlSpec == null) {
+            log.info("No configuration value for " + 
+                    Globus.CONFIG_GLOBUS_SEARCH_URL + 
+                    " so not indexing to Globus Search");
+            return;
+        }
         int dsoType = dso.getType();
-        Collection coll = null;
-        if (dsoType == Constants.ITEM) {
-            Item item = (Item) dso;
-            coll = item.getOwningCollection();
-            JSONObject content = gmetaContentForItem(context, item, coll);
-            String[] visibleTo = visibleToListForDSpaceObject(context, dso);
-            String subject = subjectForItem(item);
+        if (dsoType != Constants.ITEM) {
+            log.info("Not indexing non-Item object: " + dso);
+            return;
+        }
+        Item item = (Item) dso;
+        Collection coll = item.getOwningCollection();
+        JSONObject content = gmetaContentForItem(context, item, coll);
+        String[] visibleTo = visibleToListForDSpaceObject(context, dso);
+        String subject = subjectForItem(item);
+        String[] searchSpecs = searchUrlSpec.split("\\;");
+        for (String searchSpec : searchSpecs)
+        {
+            String[] specParts = searchSpec.split("\\$", 2);
+            String url = specParts[0];
+            String indexName = null;
+            if (specParts.length > 1) {
+                indexName = specParts[1];
+            }
+            // We are indexing, so we want to do it as the publish user, so 
+            // don't pass the context even though we have it        
+            GlobusSearchClient searchClient = getSearchClient(null, url, 
+                      indexName);
             try {
                 searchClient.index(content, subject, visibleTo);
-            } catch (GlobusClientException gce) {
-                log.error("Index operation failed on " + gce);
+            } catch (Exception e) {
+                log.error("Index operation failed on " + e);
             }
-        } else {
-            log.info("Not indexing non-Item object: " + dso);
         }
         if (superException != null) {
             log.info("Re-raising Solr indexing exception: " + superException);
