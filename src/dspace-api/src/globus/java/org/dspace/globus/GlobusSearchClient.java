@@ -25,12 +25,6 @@ public class GlobusSearchClient extends GlobusClient
 
     private String indexName;
     
-    public GlobusSearchClient(GlobusAuthToken token, 
-            String searchServiceUrl)
-    {
-        this(token, searchServiceUrl, null);
-    }
-    
     public GlobusSearchClient(GlobusAuthToken token, String searchServiceUrl,
             String indexName) 
     {
@@ -44,7 +38,7 @@ public class GlobusSearchClient extends GlobusClient
     {
         JSONObject gingest = new JSONObject();
         gingest.put("@datatype", "GIngest");
-        gingest.put("@version", "2016-11-09");
+        gingest.put("@version", "2017-09-01");
         gingest.put("ingest_type", "GMetaEntry");
 
         if (visibleTo == null || visibleTo.length == 0) {
@@ -52,7 +46,7 @@ public class GlobusSearchClient extends GlobusClient
         }
         JSONObject gmeta = new JSONObject();
         gmeta.put("@datatype", "GMetaEntry");
-        gmeta.put("@version", "2016-11-09");
+        gmeta.put("@version", "2017-09-01");
         gmeta.put("subject", subject);
         gmeta.put("visible_to", visibleTo);
         gmeta.put("mimetype", "application/json");
@@ -61,11 +55,7 @@ public class GlobusSearchClient extends GlobusClient
         gingest.put("ingest_data", gmeta);
 
         log.info("Indexing entry: " + gingest);
-        String ingestUrl = "/ingest";
-        if (indexName != null) {
-            ingestUrl = ingestUrl + "/" + indexName;
-        }
-        
+        String ingestUrl = "/index/" + indexName + "/ingest";
         Object ingestReply = doPost(RequestType.search, ingestUrl, 200, 
                 null, gingest.toString(), Object.class);
         log.info("Index of " + subject + " returned " + ingestReply);
