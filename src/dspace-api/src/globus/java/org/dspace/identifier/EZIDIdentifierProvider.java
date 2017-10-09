@@ -133,7 +133,7 @@ public class EZIDIdentifierProvider extends IdentifierProvider implements
 
     static final String DATACITE_PUBLICATION_YEAR = "datacite.publicationyear";
 
-    private static final String DOI_RESOLVER = "http://dx.doi.org/";
+    private static final String DOI_RESOLVER = "https://doi.org/";
 
     private static final ConfigurableProperty[] configProps = {
         IdentifierProvider.IdentifierConfigProp,

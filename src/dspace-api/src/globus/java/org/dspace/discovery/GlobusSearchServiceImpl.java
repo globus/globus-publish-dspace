@@ -44,16 +44,16 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GlobusDataSearchServiceImpl extends SolrServiceImpl
+public class GlobusSearchServiceImpl extends SolrServiceImpl
     implements SearchService, IndexingService {
 
-    private static final Logger log = Logger.getLogger(GlobusDataSearchServiceImpl.class);
+    private static final Logger log = Logger.getLogger(GlobusSearchServiceImpl.class);
     GlobusSearchClient searchClient;
 
-    public GlobusDataSearchServiceImpl()
+    public GlobusSearchServiceImpl()
     {
         super();
-        log.info("Started GlobusDataSearchServiceImpl");
+        log.info("Started GlobusSearchServiceImpl");
     }
 
     private GlobusSearchClient getSearchClient(Context context, String baseUrl,
@@ -137,7 +137,7 @@ public class GlobusDataSearchServiceImpl extends SolrServiceImpl
         content.put("https://schema.labs.datacite.org/meta/kernel-4.0/metadata.xsd#resourceTypeGeneral", 
                 "dataset");
         // Do a brute-force filtering of content that it isn't in the right format
-        List<String> keysToRemvoe = new ArrayList<String>();
+        List<String> keysToRemove = new ArrayList<String>();
         for (Object keyObj : content.keySet())
         {
             String key = keyObj.toString();
@@ -145,10 +145,10 @@ public class GlobusDataSearchServiceImpl extends SolrServiceImpl
             // reference (containing :) or a special string 
             if (! (key.contains("#") || key.contains(":") ||
                     key.startsWith("@"))) {
-                keysToRemvoe.add(key);
+                keysToRemove.add(key);
             }
         }
-        for (String key : keysToRemvoe)
+        for (String key : keysToRemove)
         {
             content.remove(key);
         }
