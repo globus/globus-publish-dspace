@@ -353,6 +353,43 @@ public class GlobusAuthToken extends GlobusEntity
         return this;
     }
 
+    
+    public GlobusAuthToken dependentTokenGrant() throws GlobusClientException
+    {
+        OAuthClientRequest dependentTokenRequest;
+        OAuthResourceResponse resp = null;
+        String respBody = null;
+        try {
+            dependentTokenRequest = new OAuthBearerClientRequest(OAuthTokenUrl)
+                .setAccessToken(tokenValue)
+                .buildBodyMessage();
+            dependentTokenRequest.setBody("grant_type=urn:globus:auth:grant_type:dependent_token" +
+                                    "&token=" + tokenValue);
+
+            dependentTokenRequest.setHeader(HeaderType.AUTHORIZATION, "Basic " + OAuthClientCreds);
+            OAuthClient oAuthClient = new OAuthClient(new URLConnectionClient());
+            resp =
+                oAuthClient.resource(dependentTokenRequest, HttpMethod.POST, OAuthResourceResponse.class);
+            respBody = resp.getBody();
+            GlobusAuthToken fullToken = GlobusAuthToken.fromJson(respBody);
+            // Copy all the property values from the dependent tokens
+            copy(fullToken, true);
+            if (otherTokens != null) {
+                // If we have child tokens, we introspect them as well so that required details
+                // are also populated on them
+                for (GlobusAuthToken otherToken : otherTokens) {
+                    otherToken.introspectDetails();
+                }
+            }
+        } catch (OAuthSystemException | OAuthProblemException e) {
+            throw new GlobusClientException("OAuth Operation failed " + e);
+        } catch (IOException e) {
+            throw new GlobusClientException("Unable to deserialize returned token body: "
+                + respBody);
+        }
+        return this;
+        
+    }
 
     /* (non-Javadoc)
      * @see java.lang.Object#toString()
