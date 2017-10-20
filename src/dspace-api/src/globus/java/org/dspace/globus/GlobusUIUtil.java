@@ -23,6 +23,9 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
+import javax.servlet.jsp.jstl.fmt.LocaleSupport;
+import javax.servlet.jsp.PageContext; 
+import org.apache.commons.lang.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
@@ -103,6 +106,15 @@ public class GlobusUIUtil
         {
             return requestBoolean(request,
                     PRIV_TASKS_ANY_FAILED_REQUEST_ATTRIBUTE);
+        }
+    }
+
+    public static String getLocalizedValue(PageContext pageContext, String valueString)
+    {
+        if(StringUtils.isNotBlank(valueString) && valueString.trim().startsWith("${")) {
+            return LocaleSupport.getLocalizedMessage(pageContext, valueString.trim().replaceAll("^\\$\\{", "").replaceAll("}$", ""));
+        } else {
+            return valueString;
         }
     }
 
