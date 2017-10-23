@@ -107,7 +107,7 @@
 	<div class="panel">
         <form class="form" role="search" action="/jspui/simple-search" method="GET">
         <div class="input-group">
-            <input type="text" class="form-control search_bar" placeholder="Search" name="query" id="srch-term"  style="font-size: 17px;">
+            <input type="text" class="form-control search_bar" placeholder="<fmt:message key="jsp.search.title" />" name="query" id="srch-term"  style="font-size: 17px;">
             <div class="input-group-btn">
                 <button class="btn btn-default search-button" type="submit"><i class="glyphicon glyphicon-search"></i></button>
             </div>

@@ -70,7 +70,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title><%= title %> | Globus</title>
+        <title><%= title %> | <fmt:message key="jsp.general.pagetitleappend"/></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="Generator" content="<%= generator %>" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -152,7 +152,7 @@
     <%-- HACK: leftmargin, topmargin: for non-CSS compliant Microsoft IE browser --%>
     <%-- HACK: marginwidth, marginheight: for non-CSS compliant Netscape browser --%>
     <body class="undernavigation">
-<a class="sr-only" href="#content">Skip navigation</a>
+<a class="sr-only" href="#content"><fmt:message key="jsp.header.default.skip.navigation"/></a>
 <header class="navbar navbar-inverse navbar-fixed-top">
     <%
     if (!navbar.equals("off"))
@@ -183,9 +183,9 @@ want to remove completely. --%>
         <form class="form" role="search" action="<%= request.getContextPath() %><%=searchScope%>/simple-search" method="GET">
         <div class="input-group">
             <% if (currentQuery != null){ %>
-		<input type="text" class="search_bar form-control" placeholder="Search" name="query" id="srch-term" style="font-size: 17px;" value="<%= currentQuery %>">
+		<input type="text" class="search_bar form-control" placeholder="<fmt:message key="jsp.search.title" />" name="q" id="srch-term" style="font-size: 17px;" value="<%= currentQuery %>">
 	    <% } else { %>
-                <input type="text" class="search_bar form-control" placeholder="Search" name="query" id="srch-term"  style="font-size: 17px;">
+                <input type="text" class="search_bar form-control" placeholder="<fmt:message key="jsp.search.title" />" name="query" id="srch-term"  style="font-size: 17px;">
  	    <%} %>
             <div class="input-group-btn">
                 <button class="btn btn-default search-button" type="submit"><i class="glyphicon glyphicon-search"></i></button>

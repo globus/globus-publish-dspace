@@ -168,7 +168,7 @@ if (submissions != null && submissions.count() > 0)
 		    <div style="padding-bottom: 50px; min-height: 200px;" class="item <%= first?"active":""%>">
 		      <div style="padding-left: 80px; padding-right: 80px; display: inline-block;"><%= StringUtils.abbreviate(displayTitle, 400) %>
 		      	<a href="<%= request.getContextPath() %>/handle/<%=item.getHandle() %>">
-		      		<button class="btn btn-success" type="button">See</button>
+		      		<button class="btn btn-success" type="button"><fmt:message key="jsp.home.see"/></button>
 		      		</a>
                         <p><%= StringUtils.abbreviate(displayAbstract, 500) %></p>
 		      </div>

@@ -117,7 +117,7 @@
 	<!-- .btn-navbar is used as the toggle for collapsed navbar content -->
 	<button data-target=".navbar-collapse" data-toggle="collapse"
 		class="navbar-toggle" type="button">
-		<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span>
+		<span class="sr-only"><fmt:message key="jsp.layout.navbar-default.toggle-navigation"/></span> <span class="icon-bar"></span>
 		<span class="icon-bar"></span> <span class="icon-bar"></span>
 	</button>
 </div>
@@ -238,7 +238,7 @@
     	<div class="row2">
 	      <div class="row2Content glbs_heading_subnav subnav glbs_header_sub_nav" style="line-height: 22px;">
 	      	<ul class="u2 nav-justified alert alert-info" style="padding-top: 2px; padding-bottom: 2px;">
-	      		<li style="text-align:center;">To submit a dataset or view datasets that have restricted access, please log in.</li>
+	      		<li style="text-align:center;"><fmt:message key="jsp.general.pleaselogin"/></li>
 	      	</ul>
 	      </div>
     	</div>

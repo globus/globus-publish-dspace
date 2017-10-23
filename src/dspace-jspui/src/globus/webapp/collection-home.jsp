@@ -183,7 +183,8 @@
 	</form>
 <%
 	}
-%>	</div>
+        %>
+        </div>
 </div>
 <%--
         <form class="well" method="get" action="">

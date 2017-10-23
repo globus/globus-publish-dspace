@@ -44,12 +44,12 @@
     <table border="0" width="90%">
         <tr>
             <td align="left">
-                <h1>Error logging in with your Globus identity</h1>
+                <h1><fmt:message key="jsp.goauth-duplicate-email.title"/></h1>
             </td>
         </tr>
     </table>
 
-    <p align="center">Your email address is already associated with another Globus identity. </p>
-    <p align="center">Please update your <a href="https://www.globus.org/account/UpdateProfile" target="_top">Globus Profile</a>.</p>
+    <p align="center"><fmt:message key="jsp.goauth-duplicate-email.line1"/></p>
+    <p align="center"><fmt:message key="jsp.goauth-duplicate-email.line2"/></p>
 
 </dspace:layout>

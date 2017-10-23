@@ -55,8 +55,6 @@
                nocache="true">
 <h2><fmt:message key="jsp.mydspace.remove-item.title"/></h2>
 
-    <%-- <p>Are you sure you want to remove the following incomplete item?</p> --%>
-
     <form action="<%= request.getContextPath() %>/mydspace" method="post">
     <span class="col-md-8"><fmt:message key="jsp.mydspace.remove-item.confirmation"/> </span>
         <input type="hidden" name="workspace_id" value="<%= wi.getID() %>"/>

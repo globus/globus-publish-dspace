@@ -201,12 +201,10 @@
 
 <dspace:layout titlekey="jsp.search.title">
 
-    <%-- <h1>Search Results</h1> --%>
-
-<h2>Search Results</h2>
+<h2><fmt:message key="jsp.search.results.title"/></h2>
 
 <div class="panel">
-<a href="#" id="advancedSearchLink" class="pull-right">advanced search</a>
+<a href="#" id="advancedSearchLink" class="pull-right"><fmt:message key="jsp.search.advanced.title"/></a>
 </div>
 <% if (advancedSearch){ %>
 <div class="discovery-search-form panel panel-default" id="advancedSearchForm" >
@@ -230,7 +228,6 @@
         // Scope of the search was all of DSpace.  The scope control will list
         // "all of DSpace" and the communities.
 %>
-                                    <%-- <option selected value="/">All of DSpace</option> --%>
                                     <option selected="selected" value="/"><fmt:message key="jsp.general.genericScope"/></option>
 <%  }
     else
@@ -477,7 +474,6 @@ if( error )
 else if( qResults != null && qResults.getTotalSearchResults() == 0 )
 {
  %>
-    <%-- <p align="center">Search produced no results.</p> --%>
     <p align="center"><fmt:message key="jsp.search.general.noresults"/></p>
 <%
 }
@@ -586,7 +582,7 @@ else if( qResults != null)
 	}
 %>
     <div class="panel panel-info">
-    <div class="panel-heading globus-search-expand">Community results (<%= communities.length %> <%= resultText %>) <span class="pull-right glyphicon glyphicon-collapse-down"></span></div>
+    <div class="panel-heading globus-search-expand"><fmt:message key="jsp.discovery.community.results"/> (<%= communities.length %> <%= resultText %>) <span class="pull-right glyphicon glyphicon-collapse-down"></span></div>
     <div class="search_results_div" style="display:none;">
         <dspace:communitylist  communities="<%= communities %>" />
     </div>
@@ -600,7 +596,7 @@ else if( qResults != null)
 	}
 %>
     <div class="panel panel-info">
-    <div class="panel-heading globus-search-expand">Collection results (<%= collections.length %> <%= resultText %>) <span class="pull-right glyphicon glyphicon-collapse-down"></span></div>
+    <div class="panel-heading globus-search-expand"><fmt:message key="jsp.discovery.collection.results"/> (<%= collections.length %> <%= resultText %>) <span class="pull-right glyphicon glyphicon-collapse-down"></span></div>
     <div class="search_results_div" style="display:none;">
     	<dspace:collectionlist collections="<%= collections %>" />
     </div>
@@ -609,7 +605,11 @@ else if( qResults != null)
 
 <% if (items.length > 0) { %>
     <div class="panel panel-info">
-    <div class="panel-heading globus-search-expand">Results <%=qResults.getStart()+1%>-<%=lastHint%> of <%=qResults.getTotalSearchResults()%> <span class="pull-right glyphicon glyphicon-collapse-up"></span></div>
+    <div class="panel-heading globus-search-expand"><fmt:message key="jsp.search.results.results">
+        <fmt:param><%=qResults.getStart()+1%></fmt:param>
+        <fmt:param><%=lastHint%></fmt:param>
+        <fmt:param><%=qResults.getTotalSearchResults()%></fmt:param>
+        </fmt:message> <span class="pull-right glyphicon glyphicon-collapse-up"></span></div>
     <div class="search_results_div">
     	<dspace:itemlist items="<%= items %>" authorLimit="<%= etAl %>" />
     </div>

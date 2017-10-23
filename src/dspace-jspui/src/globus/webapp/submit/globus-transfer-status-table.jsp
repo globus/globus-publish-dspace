@@ -52,14 +52,14 @@
             DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, locale);
 %>
 
-		<table class="table" align="center" summary="Table listing unfinished submissions">
-			<tr>
-				<th id="t10" class="EvenRowOddCol">Status</th>
-				<th id="t11" class="EvenRowEvenCol">Source Endpoint</th>
-				<th id="t12" class="EvenRowOddCol">Start Time</th>
-				<th id="t13" class="EvenRowEvenCol">Completion Time</th>
-				<th id="t12" class="EvenRowOddCol">Bytes Transferred</th>
-			</tr>
+        <table class="table" align="center" summary="Table listing unfinished submissions">
+            <tr>
+                <th id="t10" class="EvenRowOddCol"><fmt:message key="jsp.globus-transfer-status-table.status"/></th>
+                <th id="t11" class="EvenRowEvenCol"><fmt:message key="jsp.globus-transfer-status-table.source.endpoint"/></th>
+                <th id="t12" class="EvenRowOddCol"><fmt:message key="jsp.globus-transfer-status-table.start.time"/></th>
+                <th id="t13" class="EvenRowEvenCol"><fmt:message key="jsp.globus-transfer-status-table.completion.time"/></th>
+                <th id="t12" class="EvenRowOddCol"><fmt:message key="jsp.globus-transfer-status-table.bytes.transferred"/></th>
+            </tr>
 
 	<%
 	    for (int i = 0; i < taskList.size(); i++) {
