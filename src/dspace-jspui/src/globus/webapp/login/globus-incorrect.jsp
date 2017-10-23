@@ -44,7 +44,7 @@
     <table border="0" width="90%">
         <tr>
             <td align="left">
-                <h1>Error logging in with your Globus identity</h1>
+                <h1><fmt:message key="jsp.goauth-incorrect.title"/></h1>
             </td>
             <td align="right" class="standard">
                 <dspace:popup page="<%= LocaleSupport.getLocalizedMessage(pageContext, \"help.index\") + \"#login\" %>"><fmt:message key="jsp.help"/></dspace:popup>
@@ -52,9 +52,7 @@
         </tr>
     </table>
 
-    <p align="center">Either there was an error with your Globus identity or you are not permitted to
-    access this instance. </p>
-    <p align="center"> Please contact a system administrator or
-    <a href="mailto:support@globus.org" target="_top">Globus Support</a></p>
+    <p align="center"><fmt:message key="jsp.goauth-incorrect.line1"/></p>
+    <p align="center"><fmt:message key="jsp.goauth-incorrect.line2"/></p>
 
 </dspace:layout>

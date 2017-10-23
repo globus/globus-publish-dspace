@@ -366,7 +366,7 @@
 						<input type="hidden" id="fuuid" name="fuuid" value=""/>
 						<input type="hidden" id="suuid" name="suuid" value="<%= uuid %>"/>
 						<%=SubmissionController.getSubmissionParameters(context, request)%>
-						<button class="btn btn-success col-md-4" id="manual-submission-button" type="button">Skip Lookup</button>
+						<button class="btn btn-success col-md-4" id="manual-submission-button" type="button"><fmt:message key="jsp.submission-lookup.skip.lookup"/></button>
 
 					</form>
 					<!-- <input
@@ -389,7 +389,7 @@
 						<input type="hidden" id="fuuid" name="fuuid" value=""/>
 						<input type="hidden" id="suuid" name="suuid" value="<%= uuid %>"/>
 						<%=SubmissionController.getSubmissionParameters(context, request)%>
-						<input type="submit" class="btn btn-success col-md-6" id="manual-submission-button" value="Skip Lookup"/>
+						<input type="submit" class="btn btn-success col-md-6" id="manual-submission-button" value="<fmt:message key="jsp.submission-lookup.skip.lookup"/>"/>
 					</form>
 					<!-- <input
 					class="btn btn-primary col-md-6" type="submit"

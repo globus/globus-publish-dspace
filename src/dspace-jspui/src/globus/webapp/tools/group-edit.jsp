@@ -139,14 +139,14 @@
 <% 			} %>
  		        <input type="hidden" name="action" value="<%= EditCommunitiesServlet.START_EDIT_COLLECTION %>" />
 			   <div class="row col-md-offset-5">
-			     <a href="javascript:{}" onclick="document.getElementById('edit_coll').submit(); return false;">Return to Collection</a>
+			     <a href="javascript:{}" onclick="document.getElementById('edit_coll').submit(); return false;"><fmt:message key="jsp.tools.group-edit.collection.return"/></a>
 			   </div>
  		    </form>
   <%
  		} else {
  		    /* If we don't have the object, we jump back to the landing page based on the handle */
 %>
-		   <div class="row col-md-offset-5"><a href="<%= request.getContextPath() %>/handle/<%= collectionHandle %>">Return to Collection</a></div>
+		   <div class="row col-md-offset-5"><a href="<%= request.getContextPath() %>/handle/<%= collectionHandle %>"><fmt:message key="jsp.tools.group-edit.collection.return"/></a></div>
 <%
  		}
  %>
@@ -159,12 +159,12 @@
  		        <input type="hidden" name="community_id" value="<%= communityId %>" />
  		        <input type="hidden" name="action" value="<%= EditCommunitiesServlet.START_EDIT_COMMUNITY %>" />
 			    <div class="row col-md-offset-5">
-			     <a href="javascript:{}" onclick="document.getElementById('edit_comm').submit(); return false;">Return to Community</a>
+			     <a href="javascript:{}" onclick="document.getElementById('edit_comm').submit(); return false;"><fmt:message key="jsp.tools.group-edit.community.return"/></a>
 			   </div>
 			   </form>
 
 <%   	} else { %>
-   <div class="row col-md-offset-5"><a href="<%= request.getContextPath() %>/handle/<%= communityHandle %>">Return to Community</a></div>
+   <div class="row col-md-offset-5"><a href="<%= request.getContextPath() %>/handle/<%= communityHandle %>"><fmt:message key="jsp.tools.group-edit.community.return"/></a></div>
  <%
  		}
      }

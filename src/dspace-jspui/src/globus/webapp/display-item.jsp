@@ -224,13 +224,13 @@
 	                	</div>
 	                	<div class="col-md-3 pull-right">
 		                	<div class="dropdown">
-							  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Download Citation
+							  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><fmt:message key="jsp.display-item.download.citation"/>
 							  <span class="caret"></span></button>
 
 							  <ul class="dropdown-menu">
-							    <li><a href="<%= request.getContextPath() %>/citation-export?id=<%= item.getID() %>&format=bibtex">Bibtex</a></li>
-							    <li><a href="<%= request.getContextPath() %>/citation-export?id=<%= item.getID() %>&format=ris">RIS</a></li>
-							    <li><a href="<%= request.getContextPath() %>/citation-export?id=<%= item.getID() %>&format=plain">Plain text</a></li>
+							    <li><a href="<%= request.getContextPath() %>/citation-export?id=<%= item.getID() %>&format=bibtex"><fmt:message key="jsp.display-item.download.citation.bibtex"/></a></li>
+							    <li><a href="<%= request.getContextPath() %>/citation-export?id=<%= item.getID() %>&format=ris"><fmt:message key="jsp.display-item.download.citation.ris"/></a></li>
+							    <li><a href="<%= request.getContextPath() %>/citation-export?id=<%= item.getID() %>&format=plain"><fmt:message key="jsp.display-item.download.citation.plaintext"/></a></li>
 							  </ul>
 							</div>
 						</div>

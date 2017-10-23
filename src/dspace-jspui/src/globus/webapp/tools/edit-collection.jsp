@@ -378,11 +378,11 @@
 				<span class="col-md-7 radio">
 					<div class="radio">
 						<label><input type="radio" name="radio_submitters" value="public"
-										id="radio_submitters_public" <%=submitAllChecked%>>All Users</label>
+										id="radio_submitters_public" <%=submitAllChecked%>><fmt:message key="jsp.tools.edit-collection.all.users"/></label>
 					</div>
 					<div class="radio">
 						<label><input type="radio" name="radio_submitters" value="restricted"
-										id="radio_submitters_restricted" <%=submitRestrictedChecked %>>Restricted to Group...</label>
+										id="radio_submitters_restricted" <%=submitRestrictedChecked %>><fmt:message key="jsp.tools.edit-collection.group.restricted"/></label>
 					</div>
 					<div id="submit_submitters_edit_div" <%= submittersButtonShown %>>
 						<div class="globusGroupLink"><%= submitGroupsLink %></div>
@@ -414,15 +414,15 @@
      Collection Readers
      =========================================================== --%>
             <div class="row" style="vertical-align: middle">
-                <label class="col-md-5" for="submit_readers_restricted">Access to Data</label>
+                <label class="col-md-5" for="submit_readers_restricted"><fmt:message key="jsp.tools.edit-collection.access.data"/></label>
                 <span class="col-md-7 radio">
                   <div class="radio">
                     <label><input type="radio" name="radio_readers" id="radio_readers_public" value="public"
-                            <%=readersAllChecked%>>All Users</label>
+                            <%=readersAllChecked%>><fmt:message key="jsp.tools.edit-collection.all.users"/></label>
                   </div>
                   <div class="radio">
                     <label><input type="radio" name="radio_readers" id="radio_readers_restricted" value="restricted"
-                             <%=readersRestrictedChecked%>>Restricted to Group...</label>
+                             <%=readersRestrictedChecked%>><fmt:message key="jsp.tools.edit-collection.group.restricted"/></label>
                   </div>
                   <div id="submit_readers_edit_div" <%=readersButtonShown %>>
 						<div class="globusGroupLink"><%= readerGroupsLink %></div>
