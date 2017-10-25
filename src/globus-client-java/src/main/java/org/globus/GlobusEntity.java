@@ -175,9 +175,13 @@ public class GlobusEntity
         if (mapper == null) {
             mapper = new ObjectMapper();
         }
-
         T obj = mapper.readValue(json, cls);
         return obj;
+    }
+    
+    public synchronized static <T> T[] fromJsonArray(String json, Class<T> cls) throws IOException
+    {
+        return (T[]) fromJson(json, java.lang.reflect.Array.newInstance(cls, 0).getClass());
     }
     
     public synchronized String toJson() throws JsonGenerationException, JsonMappingException, IOException

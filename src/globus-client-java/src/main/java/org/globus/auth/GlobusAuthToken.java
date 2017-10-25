@@ -371,15 +371,16 @@ public class GlobusAuthToken extends GlobusEntity
             resp =
                 oAuthClient.resource(dependentTokenRequest, HttpMethod.POST, OAuthResourceResponse.class);
             respBody = resp.getBody();
-            GlobusAuthToken fullToken = GlobusAuthToken.fromJson(respBody);
-            // Copy all the property values from the dependent tokens
-            copy(fullToken, true);
-            if (otherTokens != null) {
-                // If we have child tokens, we introspect them as well so that required details
-                // are also populated on them
-                for (GlobusAuthToken otherToken : otherTokens) {
-                    otherToken.introspectDetails();
-                }
+            // Deserialize the body into an array of tokens
+            GlobusAuthToken[] depTokens = GlobusEntity.fromJsonArray(respBody, GlobusAuthToken.class); 
+            if (otherTokens == null || otherTokens.length == 0) {
+                otherTokens = depTokens;
+            } else {
+                int totLength = otherTokens.length + depTokens.length;
+                GlobusAuthToken[] newOther = new GlobusAuthToken[totLength];
+                System.arraycopy(otherTokens, 0, newOther, 0, otherTokens.length);
+                System.arraycopy(depTokens, 0, newOther, otherTokens.length, depTokens.length);
+                otherTokens = newOther;                
             }
         } catch (OAuthSystemException | OAuthProblemException e) {
             throw new GlobusClientException("OAuth Operation failed " + e);
