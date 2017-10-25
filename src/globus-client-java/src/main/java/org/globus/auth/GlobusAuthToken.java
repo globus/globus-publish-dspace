@@ -353,6 +353,44 @@ public class GlobusAuthToken extends GlobusEntity
         return this;
     }
 
+    
+    public GlobusAuthToken dependentTokenGrant() throws GlobusClientException
+    {
+        OAuthClientRequest dependentTokenRequest;
+        OAuthResourceResponse resp = null;
+        String respBody = null;
+        try {
+            dependentTokenRequest = new OAuthBearerClientRequest(OAuthTokenUrl)
+                .setAccessToken(tokenValue)
+                .buildBodyMessage();
+            dependentTokenRequest.setBody("grant_type=urn:globus:auth:grant_type:dependent_token" +
+                                    "&token=" + tokenValue);
+
+            dependentTokenRequest.setHeader(HeaderType.AUTHORIZATION, "Basic " + OAuthClientCreds);
+            OAuthClient oAuthClient = new OAuthClient(new URLConnectionClient());
+            resp =
+                oAuthClient.resource(dependentTokenRequest, HttpMethod.POST, OAuthResourceResponse.class);
+            respBody = resp.getBody();
+            // Deserialize the body into an array of tokens
+            GlobusAuthToken[] depTokens = GlobusEntity.fromJsonArray(respBody, GlobusAuthToken.class); 
+            if (otherTokens == null || otherTokens.length == 0) {
+                otherTokens = depTokens;
+            } else {
+                int totLength = otherTokens.length + depTokens.length;
+                GlobusAuthToken[] newOther = new GlobusAuthToken[totLength];
+                System.arraycopy(otherTokens, 0, newOther, 0, otherTokens.length);
+                System.arraycopy(depTokens, 0, newOther, otherTokens.length, depTokens.length);
+                otherTokens = newOther;                
+            }
+        } catch (OAuthSystemException | OAuthProblemException e) {
+            throw new GlobusClientException("OAuth Operation failed " + e);
+        } catch (IOException e) {
+            throw new GlobusClientException("Unable to deserialize returned token body: "
+                + respBody);
+        }
+        return this;
+        
+    }
 
     /* (non-Javadoc)
      * @see java.lang.Object#toString()
