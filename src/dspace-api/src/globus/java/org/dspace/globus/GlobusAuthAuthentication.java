@@ -161,18 +161,15 @@ public class GlobusAuthAuthentication implements AuthenticationMethod
             return BAD_ARGS;
         }
 
-    	String displayName = authToken.name;
     	String email = authToken.email;
-    	String effectiveIdentity = authToken.subjectIdentity;
 
-        EPerson eperson = null;
-
-        // Locate the eperson
-        log.info("Trying to get user by netid " + effectiveIdentity);
-        try {
-            eperson = EPerson.findByNetid(context, effectiveIdentity);
-        } catch (Exception e) {
-        }
+    	EPerson eperson = null;
+    	try {
+    	    eperson = getEPersonForAuthToken(context, authToken, 
+    	            canSelfRegister(context, request, email), request);
+    	} catch (AuthorizeException ae) {
+    	    // Still null so handled below
+    	}
 
         // if they entered a netid that matches an eperson
         if (eperson != null) {
@@ -184,51 +181,13 @@ public class GlobusAuthAuthentication implements AuthenticationMethod
             } else if (!eperson.canLogIn()) {
                 return BAD_ARGS;
             }
-        } else {
-            log.info("User doesnt exist - trying to auto register" + email);
-
-            if (canSelfRegister(context, request, email)) {
-                // TEMPORARILY turn off authorization
-                try {
-                    String firstName = "";
-                    String lastName = "";
-                    int spaceSepLoc = displayName.indexOf(" ");
-                    if (spaceSepLoc > 0) {
-                        firstName = displayName.substring(0, spaceSepLoc).trim();
-                        lastName = displayName.substring(spaceSepLoc).trim();
-                    } else {
-                        firstName = displayName;
-                    }
-                    context.turnOffAuthorisationSystem();
-                    eperson = EPerson.create(context);
-                    context.restoreAuthSystemState();
-
-                    eperson.setEmail(email);
-                    eperson.setFirstName(firstName);
-                    eperson.setLastName(lastName);
-                    eperson.setNetid(effectiveIdentity);
-                    eperson.setLastActive(new Date());
-                    eperson.setCanLogIn(true);
-                    AuthenticationManager.initEPerson(context, request, eperson);
-                } catch (AuthorizeException e) {
-                    log.error("User authentication failed on ", e);
-                    return NO_SUCH_USER;
-                } catch (Exception e) {
-                    log.error("Error creating new user", e);
-                } finally {
-                    context.setIgnoreAuthorization(false);
-                }
-            }
-        }
-        
-        if (eperson != null) {
+            eperson.setLastActive(new Date());
             try {
                 context.setIgnoreAuthorization(true);
                 eperson.update();
                 context.commit();
             } catch (Exception e) {
-                log.error("ERROR updating user with access token", e);
-                e.printStackTrace();
+                log.error("ERROR updating user " + email + " with access token", e);
                 return DUPLICATE_EMAIL;
             } finally {
                 context.setIgnoreAuthorization(false);
@@ -241,6 +200,83 @@ public class GlobusAuthAuthentication implements AuthenticationMethod
         return BAD_ARGS;
     }
 
+
+    /**
+     * Return the EPerson object associated with an AuthToken which has already
+     * been introspected to get user details.
+     * @param context
+     * @param authToken The authtoken carrying user information from introspection
+     * @param createIfNotPresent If true, a new user will be created in the system
+     * for the authtoken details if not already present. This requires a context
+     * which is not in READ_ONLY mode.
+     * @param request The input HttpServletRequest that triggered this action.
+     * It is needed to pass on to AuthenticationManager.initEPerson in the case
+     * where a new user is created. 
+     * @return An EPerson object for the user presenting the authtoken
+     * @throws SQLException If DB lookup or update fails
+     * @throws AuthorizeException If authorization to create the new user
+     * fails. New user creation takes place in a region of authorization checks
+     * turned off, so this should not ever happen.
+     */
+    public static EPerson getEPersonForAuthToken(Context context, 
+            GlobusAuthToken authToken, boolean createIfNotPresent,
+            HttpServletRequest request) throws SQLException, AuthorizeException
+    {
+        String effectiveIdentity = authToken.subjectIdentity;
+
+        EPerson eperson = null;
+
+        // Locate the eperson
+        log.info("Trying to get user by netid " + effectiveIdentity);
+        eperson = EPerson.findByNetid(context, effectiveIdentity);
+        if (eperson != null) {
+            return eperson;
+        } 
+        
+        if (createIfNotPresent) {            
+            try {
+                String displayName = authToken.name;
+                String email = authToken.email;
+                log.info("User doesnt exist - trying to auto register" + email);
+                String firstName = "";
+                String lastName = "";
+                int spaceSepLoc = displayName.indexOf(" ");
+                if (spaceSepLoc > 0) {
+                    firstName = displayName.substring(0, spaceSepLoc).trim();
+                    lastName = displayName.substring(spaceSepLoc).trim();
+                } else {
+                    firstName = displayName;
+                }
+                context.turnOffAuthorisationSystem();
+                eperson = EPerson.create(context);
+                context.restoreAuthSystemState();
+
+                eperson.setEmail(email);
+                eperson.setFirstName(firstName);
+                eperson.setLastName(lastName);
+                eperson.setNetid(effectiveIdentity);
+                eperson.setCanLogIn(true);
+                if (request != null) {
+                    AuthenticationManager.initEPerson(context, request, eperson);
+                }
+                context.setIgnoreAuthorization(true);
+                eperson.update();
+                context.commit();
+            } catch (AuthorizeException e) {
+                log.error("User authentication failed on ", e);
+                throw e;
+            } catch (IllegalStateException ise) {
+                log.info("Failed to create a new user due to context state");
+                throw ise;
+            } catch (Exception e) {
+                log.error("Error creating new user", e);
+                throw e;
+            } finally {
+                context.setIgnoreAuthorization(false);
+            }
+        }
+        return eperson;
+    }
 
     /*
      * Returns URL to which to redirect to obtain credentials (either password prompt or e.g. HTTPS
