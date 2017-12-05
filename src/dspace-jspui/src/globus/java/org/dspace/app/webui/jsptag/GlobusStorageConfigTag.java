@@ -21,6 +21,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.log4j.Logger;
 import org.dspace.content.Collection;
+import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
 import org.dspace.globus.Globus;
 import org.dspace.globus.configuration.BootstrapFormRenderer;
@@ -154,6 +155,12 @@ public class GlobusStorageConfigTag extends TagSupport
             bfr.getConfigValueFromValueRep(request, Globus.getGlobusStorageCollectionConfig(),
                                            Globus.CONFIG_GLOBUS_SHARE_PATH_PREFIX);
         String publishUserSubstitutionString = "$publishUser";
+        String privUserName = ConfigurationManager.getProperty(Globus.GLOBUS_AUTH_CONFIG_MODULE,
+                                                               Globus.GLOBUS_USER_CONFIG_PROP);
+        if (privUserName == null) {
+            privUserName = "Globus Auth identity for the service";
+        }
+        
 
         if (epName == null || pathName == null) {
             request.setAttribute(TEST_STATUS_REQ_ATTR,
@@ -196,7 +203,7 @@ public class GlobusStorageConfigTag extends TagSupport
         } catch (GlobusClientException gce) {
             String message = gce.getMessage();
             if (message != null) {
-                testErrors.add(message);
+                testErrors.add(message.replace(publishUserSubstitutionString, privUserName));
             } else {
                 testErrors.add("Endpoint test failed unexpectedly, reset settings and try again");
             }

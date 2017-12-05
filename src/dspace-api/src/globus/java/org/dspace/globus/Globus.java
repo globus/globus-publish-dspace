@@ -93,7 +93,7 @@ public class Globus
     
     private static final String GLOBUS_PRIV_AUTH_METHOD_CONFIG_PROP = "globus.priv_auth.method"; 
 
-    static final String GLOBUS_USER_CONFIG_PROP = "username";
+    public static final String GLOBUS_USER_CONFIG_PROP = "username";
 
     private static final String GLOBUS_USER_PWD_CONFIG_PROP = "password";
 
