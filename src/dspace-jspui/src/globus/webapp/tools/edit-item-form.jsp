@@ -134,7 +134,7 @@
             boolean authority = mam.isAuthorityControlled(fieldName);
             boolean required = authority && mam.isAuthorityRequired(fieldName);
 
-            String fieldNameIdx = "value_" + fieldName + "_" + idx;
+            String fieldNameIdx = "value__" + fieldName + "__" + idx;
             String authorityName = "choice_" + fieldName + "_authority_" + idx;
             String confidenceName = "choice_" + fieldName + "_confidence_" + idx;
 
@@ -454,7 +454,13 @@
     {
         // Find out how many values with this element/qualifier we've found
 
-        String key = ChoiceAuthorityManager.makeFieldKey(dcv[i].schema, dcv[i].element, dcv[i].qualifier);
+        // String key = ChoiceAuthorityManager.makeFieldKey(dcv[i].schema, dcv[i].element, dcv[i].qualifier);
+        /* JCP single _ conflicts with some of our field names, so we use double __ to seprate
+        field names in the forms */
+        String key = dcv[i].schema + "__" + dcv[i].element;
+        if (dcv[i].qualifier != null) {
+            key = key + "__" + dcv[i].qualifier;
+        }
 
         Integer count = dcCounter.get(key);
         if (count == null)
@@ -490,7 +496,7 @@
                                 dcv[i], collectionID).toString()
                     %>
                     <% } else { %>
-                        <textarea class="form-control" id="value_<%= key %>_<%= sequenceNumber %>" name="value_<%= key %>_<%= sequenceNumber %>" rows="3" cols="50"><%= dcv[i].value %></textarea>
+                        <textarea class="form-control" id="value__<%= key %>__<%= sequenceNumber %>" name="value__<%= key %>__<%= sequenceNumber %>" rows="3" cols="50"><%= dcv[i].value %></textarea>
                     <% } %>
                 </td>
                 <td headers="t4" class="<%= row %>RowOddCol">
