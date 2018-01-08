@@ -231,13 +231,16 @@ public class GlobusAuthAuthentication implements AuthenticationMethod
         eperson = EPerson.findByNetid(context, effectiveIdentity);
         if (eperson != null) {
             return eperson;
-        } 
-        
+        }
+
         if (createIfNotPresent) {            
             try {
                 String displayName = authToken.name;
                 String email = authToken.email;
-                log.info("User doesnt exist - trying to auto register" + email);
+                if (email == null) {
+                    email = authToken.username;
+                }
+                log.info("User doesn't exist - trying to auto register: " + authToken.username);
                 String firstName = "";
                 String lastName = "";
                 int spaceSepLoc = displayName.indexOf(" ");
@@ -249,7 +252,6 @@ public class GlobusAuthAuthentication implements AuthenticationMethod
                 }
                 context.turnOffAuthorisationSystem();
                 eperson = EPerson.create(context);
-                context.restoreAuthSystemState();
 
                 eperson.setEmail(email);
                 eperson.setFirstName(firstName);
@@ -259,9 +261,9 @@ public class GlobusAuthAuthentication implements AuthenticationMethod
                 if (request != null) {
                     AuthenticationManager.initEPerson(context, request, eperson);
                 }
-                context.setIgnoreAuthorization(true);
                 eperson.update();
                 context.commit();
+                context.restoreAuthSystemState();
             } catch (AuthorizeException e) {
                 log.error("User authentication failed on ", e);
                 throw e;
