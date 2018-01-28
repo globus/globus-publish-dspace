@@ -68,6 +68,12 @@ else
     fi
 fi
 
+# Set the dspace source directory to use the pom.xml in our src dir
+# since when we build with maven, we do it from the dspace source dir
+if [ -f $dspaceSrc/pom.xml ]; then
+    mv $dspaceSrc/pom.xml $dspaceSrc/pom.xml.orig
+    ln -sfv $devroot/src/pom.xml $dspaceSrc/pom.xml
+fi
 
 
 for module in $dspaceSrcModules
