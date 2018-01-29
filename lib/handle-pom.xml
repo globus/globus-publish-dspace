@@ -7,6 +7,7 @@
   <name>Handle Client Library</name>
   <dependencies>
 
+    <!--
     <dependency>
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcpkix-jdk15on</artifactId>
@@ -16,9 +17,9 @@
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcprov-ext-jdk15on</artifactId>
       <version>1.50</version>
-    </dependency>
+      </dependency>
+      -->
 
-    <!--
     <dependency>
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcprov-jdk15</artifactId>
@@ -28,8 +29,7 @@
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcmail-jdk15</artifactId>
       <version>1.44</version>
-      </dependency>
-      -->
+    </dependency>
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
