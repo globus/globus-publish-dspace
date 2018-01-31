@@ -180,7 +180,7 @@ public class GlobusSearchServiceImpl extends SolrServiceImpl
         }
         String searchUrlSpec = 
                 Globus.getGlobusConfigProperty(Globus.CONFIG_GLOBUS_SEARCH_URL);
-        if (searchUrlSpec == null) {
+        if (searchUrlSpec == null || searchUrlSpec.isEmpty()) {
             log.info("No configuration value for " + 
                     Globus.CONFIG_GLOBUS_SEARCH_URL + 
                     " so not indexing to Globus Search");
