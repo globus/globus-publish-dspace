@@ -128,7 +128,7 @@ dspaceTargetDir=$dspaceSrc/dspace/target/dspace-4.2-build
 
 (cd $devroot/src/globus-client-java && mvn install -DskipTests)
 
-(cd $dspaceSrc && mvn -ff clean package -P '!dspace-xmlui,!dspace-lni,!dspace-oai,!dspace-sword,!dspace-swordv2,!dspace-rest')
+(cd $dspaceSrc && mvn -ff clean install package -P '!dspace-xmlui,!dspace-lni,!dspace-oai,!dspace-sword,!dspace-swordv2,!dspace-rest')
 
 if [ $? = 1 ]; then
     echo Build Failed, exiting

@@ -174,7 +174,7 @@
                     <!--Just check headers of everything in the /src directory -->
                     <includes>
                         <include>src/**</include>
-                    </includes>
+                        </includes>
                     <!--Use all default exclusions for IDE files & Maven files, see:
                         http://code.google.com/p/maven-license-plugin/wiki/Configuration#Default_excludes -->
                     <useDefaultExcludes>true</useDefaultExcludes>
@@ -207,6 +207,7 @@
                     <!-- maven-license-plugin recommends a strict check (e.g. check spaces/tabs too) -->
                     <strictCheck>true</strictCheck>
                 </configuration>
+                <!--
                 <executions>
                     <execution>
                         <id>check-headers</id>
@@ -215,7 +216,8 @@
                             <goal>check</goal>
                         </goals>
                     </execution>
-                </executions>
+                    </executions>
+                    -->
          </plugin>
       </plugins>
    </build>
