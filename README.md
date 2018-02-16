@@ -86,3 +86,6 @@ Some specific edits to be aware of:
 * Edit the configuration files in `[dpsace.install.dir]/config` including `dspace.cfg`, `modules/globus.cfg` and `modules/globus-auth.cfg` to reflect appropriate values for your environment.
 
 * (Scripted) Re-start Tomcat so that the changes are picked up.
+
+## Support
+This work was partially supported under financial assistance award 70NANB14H012 from U.S. Department of Commerce, National Institute of Standards and Technology as part of the Center for Hierarchical Material Design (CHiMaD).
