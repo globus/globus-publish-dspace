@@ -155,7 +155,7 @@
 							<li class="leaf"><a class="zendeskLink zendeskChecked" href="https://support.globus.org/forums/20534338">FAQs</a></li>
 							<li class="leaf"><a class="zendeskLink zendeskChecked" href="https://support.globus.org/entries/24044351">Downloads</a></li>
 							<li class="leaf"><a class="zendeskLink zendeskChecked" href="https://support.globus.org/categories/20133407">Provider Documentation</a></li>
-							<li class="leaf"><a class="zendeskLink zendeskChecked" href="/contact-us">Contact Us</a></li>
+							<li class="leaf"><a class="zendeskLink zendeskChecked" href="https://www.globus.org/contact-us">Contact Us</a></li>
 							<li class="last leaf"><a class="zendeskLink zendeskChecked" href="https://support.globus.org/requests">Check Support Tickets</a></li>
 						</ul>
 					</li>
