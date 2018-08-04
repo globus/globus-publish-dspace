@@ -26,32 +26,26 @@
  */
 package org.dspace.app.webui.servlet;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.dspace.app.webui.util.Authenticate;
-import org.dspace.authorize.AuthorizeManager;
-import org.dspace.app.webui.util.JSPManager;
 import org.dspace.app.webui.util.UIUtil;
-import org.dspace.authorize.AuthorizeException;
-import org.dspace.core.Constants;
 import org.dspace.core.Context;
-import org.dspace.content.Item;
+import org.dspace.core.Constants;
 import org.dspace.core.LogManager;
-import org.dspace.globus.Globus;
-import org.dspace.app.webui.util.UIUtil;
+import org.dspace.authorize.AuthorizeException;
+import org.dspace.authorize.AuthorizeManager;
 import org.dspace.content.DCValue;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ByteArrayInputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
+import org.dspace.content.Item;
 /**
  * Servlet that exports a citation
  *
@@ -69,7 +63,12 @@ public class ExportCitationServlet extends DSpaceServlet
     {
         log.info(LogManager.getHeader(context, "export citation", ""));
         int id = UIUtil.getIntParameter(request, "id");
-        String format = request.getParameter("format").trim();
+        String format = request.getParameter("format");
+        if (format == null) {
+            format = "bibtex";
+        } else {
+            format = format.trim();
+        }
 
         // get collection
     	Item item = Item.find(context, id);

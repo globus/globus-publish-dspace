@@ -322,7 +322,7 @@ public class CollectionWizardServlet extends DSpaceServlet
         }
 
         // Need to set a name so that the indexer won't throw an exception
-        collection.setMetadata("name", "");
+        collection.setMetadata("name", "Temporary Name");
         collection.update();
 
         // Now display "basic info" screen
