@@ -455,7 +455,7 @@ public class DiscoverySearchRequestProcessor implements SearchRequestProcessor
                 exportMetadata(context, response, resultsItems);
             }
         }
-        catch (SearchServiceException e)
+        catch (SearchServiceException | NullPointerException e)
         {
             log.error(
                     LogManager.getHeader(context, "search", "query="
