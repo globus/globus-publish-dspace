@@ -65,9 +65,14 @@ public class GlobusSearchServiceImpl extends SolrServiceImpl
         } else {
             gc = Globus.getGlobusClientFromContext(context).getClient();
         }
-        GlobusAuthToken searchToken = gc.getAuthTokenForRequestType(RequestType.search);
-        searchClient = new GlobusSearchClient(searchToken, baseUrl, indexName);
-        return searchClient;
+        if (gc != null) {
+            GlobusAuthToken searchToken = gc.getAuthTokenForRequestType(RequestType.search);
+            if (searchToken != null) {
+                searchClient = new GlobusSearchClient(searchToken, baseUrl, indexName);
+                return searchClient;
+            }
+        }
+        return null;
     }
     
     /**
@@ -205,14 +210,14 @@ public class GlobusSearchServiceImpl extends SolrServiceImpl
             if (specParts.length > 1) {
                 indexName = specParts[1];
             }
-            // We are indexing, so we want to do it as the publish user, so 
-            // don't pass the context even though we have it        
-            GlobusSearchClient searchClient = getSearchClient(null, url, 
-                      indexName);
             try {
+                // We are indexing, so we want to do it as the publish user, so 
+                // don't pass the context even though we have it        
+                GlobusSearchClient searchClient = getSearchClient(null, url, 
+                          indexName);
                 searchClient.index(content, subject, visibleTo);
             } catch (Exception e) {
-                log.error("Index operation failed on " + e);
+                log.error("Indexing to Globus Search failed on " + e);
             }
         }
         if (superException != null) {
