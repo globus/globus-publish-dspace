@@ -2201,6 +2201,9 @@ public class SolrServiceImpl implements SearchService, IndexingService {
     }
 
     protected String transformDisplayedValue(Context context, String field, String value) throws SQLException {
+        if (field == null) {
+            throw new SQLException("Invalid field value for Solr Query Creation");
+        }
         if(field.equals("location.comm") || field.equals("location.coll"))
         {
             value = locationToName(context, field, value);
