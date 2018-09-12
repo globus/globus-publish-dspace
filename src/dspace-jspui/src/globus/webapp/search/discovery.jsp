@@ -114,10 +114,12 @@
 	    int idx = 1;
 	    for (String[] filter : appliedFilters)
 	    {
-	        httpFilters += "&amp;filter_field_"+idx+"="+URLEncoder.encode(filter[0],"UTF-8");
-	        httpFilters += "&amp;filter_type_"+idx+"="+URLEncoder.encode(filter[1],"UTF-8");
-	        httpFilters += "&amp;filter_value_"+idx+"="+URLEncoder.encode(filter[2],"UTF-8");
-	        idx++;
+	    	if (filter[0] != null && filter[1] != null && filter[2] != null) {
+	        	httpFilters += "&amp;filter_field_"+idx+"="+URLEncoder.encode(filter[0],"UTF-8");
+	        	httpFilters += "&amp;filter_type_"+idx+"="+URLEncoder.encode(filter[1],"UTF-8");
+	        	httpFilters += "&amp;filter_value_"+idx+"="+URLEncoder.encode(filter[2],"UTF-8");
+	        	idx++;
+	    	}
 	    }
 	}
     int rpp          = qArgs.getMaxResults();
@@ -267,7 +269,7 @@
 					{
 					    String fkey = "jsp.search.filter."+searchFilter.getIndexFieldName();
 					    %><option value="<%= searchFilter.getIndexFieldName() %>"<%
-					            if (filter[0].equals(searchFilter.getIndexFieldName()))
+					            if (filter[0] != null && filter[0].equals(searchFilter.getIndexFieldName()))
 					            {
 					                %> selected="selected"<%
 					                found = true;
@@ -313,13 +315,15 @@
 				int idx = 1;
 				for (String[] filter : appliedFilters)
 				{
-				    boolean found = false;
-				    %>
-				    <input type="hidden" id="filter_field_<%=idx %>" name="filter_field_<%=idx %>" value="<%= filter[0] %>" />
-					<input type="hidden" id="filter_type_<%=idx %>" name="filter_type_<%=idx %>" value="<%= filter[1] %>" />
-					<input type="hidden" id="filter_value_<%=idx %>" name="filter_value_<%=idx %>" value="<%= StringEscapeUtils.escapeHtml(filter[2]) %>" />
-					<%
-					idx++;
+					if (filter[0] != null && filter[1] != null && filter[2] != null) {
+				    	boolean found = false;
+				    	%>
+					    <input type="hidden" id="filter_field_<%=idx %>" name="filter_field_<%=idx %>" value="<%= filter[0] %>" />
+						<input type="hidden" id="filter_type_<%=idx %>" name="filter_type_<%=idx %>" value="<%= filter[1] %>" />
+						<input type="hidden" id="filter_value_<%=idx %>" name="filter_value_<%=idx %>" value="<%= StringEscapeUtils.escapeHtml(filter[2]) %>" />
+						<%
+						idx++;
+					}
 				}
 		} %>
 		<select id="filtername" name="filtername">
@@ -357,13 +361,15 @@
 				int idx = 1;
 				for (String[] filter : appliedFilters)
 				{
-				    boolean found = false;
-				    %>
-				    <input type="hidden" id="filter_field_<%=idx %>" name="filter_field_<%=idx %>" value="<%= filter[0] %>" />
-					<input type="hidden" id="filter_type_<%=idx %>" name="filter_type_<%=idx %>" value="<%= filter[1] %>" />
-					<input type="hidden" id="filter_value_<%=idx %>" name="filter_value_<%=idx %>" value="<%= StringEscapeUtils.escapeHtml(filter[2]) %>" />
-					<%
-					idx++;
+					if (filter[0] != null && filter[1] != null && filter[2] != null) {
+				    	boolean found = false;
+				    	%>
+				    	<input type="hidden" id="filter_field_<%=idx %>" name="filter_field_<%=idx %>" value="<%= filter[0] %>" />
+						<input type="hidden" id="filter_type_<%=idx %>" name="filter_type_<%=idx %>" value="<%= filter[1] %>" />
+						<input type="hidden" id="filter_value_<%=idx %>" name="filter_value_<%=idx %>" value="<%= StringEscapeUtils.escapeHtml(filter[2]) %>" />
+						<%
+						idx++;
+					}
 				}
 	} %>
            <label for="rpp"><fmt:message key="search.results.perpage"/></label>
