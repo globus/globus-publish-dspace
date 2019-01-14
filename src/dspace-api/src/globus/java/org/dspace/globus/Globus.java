@@ -76,10 +76,6 @@ public class Globus
 
     private static final String GLOBUS_AUTH_URL_PROP = "globus.auth.url";
 
-    private static final String GLOBUS_TRANSFER_URL_CONFIG_PROP = "transfer.url";
-
-    private static final String GLOBUS_GROUPS_URL_CONFIG_PROP = "groups.url";
-
     private static final String LOGOUT_URL_CONFIG_PROP = "globus.logout.url";
 
     // Globus APIs
@@ -358,37 +354,6 @@ public class Globus
                 propName);
     }
 
-    public static String getGroupSelectPage(int dspaceID,
-            String dspaceRedirectURL, String collectionHandle,
-            String communityHandle, boolean skipGroups)
-    {
-        String groupsUrl = getGlobusConfigProperty(GLOBUS_URL_PROP)
-                + getGlobusConfigProperty(GLOBUS_GROUPS_URL_CONFIG_PROP);
-
-        String collectionAndCommunity = "";
-        if (collectionHandle != null)
-        {
-            collectionAndCommunity += "&collection_handle=" + collectionHandle;
-        }
-        if (communityHandle != null)
-        {
-            collectionAndCommunity += "&community_handle=" + communityHandle;
-        }
-        if (skipGroups)
-        {
-            collectionAndCommunity += "&skipGroupsPage=true";
-        }
-        String actionPart = GlobusClient
-                .utf8Encode(dspaceRedirectURL + "?group_id=" + dspaceID
-                        + "&globusCallback=true" + collectionAndCommunity);
-
-        if (groupsUrl != null && actionPart != null)
-        {
-            return groupsUrl + "?action=" + actionPart;
-        }
-        return null;
-    }
-
     public static String getGlobusLogoutLink(HttpServletRequest request)
     {
         String redirectUrl = getPublishURL(request) + "/login/logged-out.jsp";
@@ -396,38 +361,6 @@ public class Globus
                 + getGlobusConfigProperty(LOGOUT_URL_CONFIG_PROP);
         return logoutURL + "?redirect_uri="
                 + GlobusClient.utf8Encode(redirectUrl);
-    }
-
-    public static String getTransferPage(String epName, String path)
-    {
-        epName = GlobusClient.utf8Encode(epName);
-        String transferBaseUrl = getGlobusConfigProperty(GLOBUS_URL_PROP)
-                + getGlobusConfigProperty(GLOBUS_TRANSFER_URL_CONFIG_PROP);
-        if (transferBaseUrl != null && epName != null)
-        {
-            transferBaseUrl = transferBaseUrl + "?destination_id=" + epName
-                    + "&destination_path=" + path;
-            return transferBaseUrl;
-        }
-        return null;
-    }
-
-    public static String getTransferActivityPage(String taskId) {
-        return getGlobusConfigProperty(GLOBUS_URL_PROP)  + "/app/activity/"
-                + taskId + "/overview";  
-    }
-
-    public static String getTransferURL(String epName, String path)
-    {
-        epName = GlobusClient.utf8Encode(epName);
-        String transferUrl = getGlobusConfigProperty(GLOBUS_URL_PROP)
-                + getGlobusConfigProperty(GLOBUS_TRANSFER_URL_CONFIG_PROP);
-        if (transferUrl != null && epName != null)
-        {
-            return (transferUrl + "?origin_id=" + epName + "&origin_path="
-                    + path);
-        }
-        return null;
     }
 
     public static String getPublicationLeafDirPrefix()

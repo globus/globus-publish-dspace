@@ -28,15 +28,13 @@ package org.dspace.app.webui.servlet.admin;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 import org.dspace.app.webui.servlet.DSpaceServlet;
@@ -44,16 +42,15 @@ import org.dspace.app.webui.util.JSPManager;
 import org.dspace.app.webui.util.UIUtil;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.authorize.AuthorizeManager;
+import org.dspace.content.Collection;
+import org.dspace.content.Community;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
 import org.dspace.eperson.EPerson;
 import org.dspace.eperson.Group;
-
-import org.dspace.content.Collection;
-import org.dspace.content.Community;
-import org.dspace.handle.HandleManager;
-import org.dspace.app.webui.servlet.admin.EditCommunitiesServlet;
 import org.dspace.globus.Globus;
+import org.dspace.globus.GlobusWebAppIntegration;
+import org.dspace.handle.HandleManager;
 
 /**
  * Servlet for editing groups
@@ -198,7 +195,12 @@ public class GroupEditServlet extends DSpaceServlet
                 request.setAttribute("community_handle", communityHandle);
 
                 if (skipGroupsPage){
-                    response.sendRedirect(Globus.getGroupSelectPage(groupID, redirectURL, collectionHandle, communityHandle, true));
+                    response.sendRedirect(GlobusWebAppIntegration.
+                                          getGroupSelectionUrl(groupID,
+                                                               redirectURL,
+                                                               collectionHandle,
+                                                               communityHandle,
+                                                               true));
                 } else {
                     JSPManager.showJSP(request, response, "/tools/group-edit.jsp");
                 }
@@ -380,7 +382,12 @@ public class GroupEditServlet extends DSpaceServlet
                 request.setAttribute("community_handle", communityHandle);
 
                 if (skipGroupsPage){
-                    response.sendRedirect(Globus.getGroupSelectPage(groupID, redirectURL, collectionHandle, communityHandle, true));
+                    response.sendRedirect(GlobusWebAppIntegration.
+                                          getGroupSelectionUrl(groupID,
+                                                               redirectURL,
+                                                               collectionHandle,
+                                                               communityHandle,
+                                                               true));
                 } else {
                     JSPManager.showJSP(request, response, "/tools/group-edit.jsp");
                 }

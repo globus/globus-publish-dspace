@@ -66,7 +66,7 @@ import org.dspace.core.Context;
 import org.dspace.core.I18nUtil;
 import org.dspace.core.PluginManager;
 import org.dspace.core.Utils;
-import org.dspace.globus.Globus;
+import org.dspace.globus.GlobusWebAppIntegration;
 
 /**
  * <P>
@@ -806,7 +806,7 @@ public class ItemTag extends TagSupport
 
         out.println("<div class=\"panel-body\">");
         if (provideLinkToDataset) {
-            out.println("<a href=\"" + Globus.getTransferURL(epName, epPath) + "\" target=\"GlobusOps\">" +epName + epPath + "</a>");
+            out.println("<a href=\"" + GlobusWebAppIntegration.getWebAppFileManagerUrl(epName, epPath, "origin") + "\" target=\"GlobusOps\">" +epName + epPath + "</a>");
         } else {
             out.println(epName + epPath);
         }

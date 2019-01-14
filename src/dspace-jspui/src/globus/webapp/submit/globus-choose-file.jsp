@@ -20,11 +20,11 @@
 
 <%--
 
-    The contents of this file are subject to the license and copyright
-    detailed in the LICENSE and NOTICE files at the root of the source
-    tree and available online at
+The contents of this file are subject to the license and copyright
+detailed in the LICENSE and NOTICE files at the root of the source
+tree and available online at
 
-    http://www.dspace.org/license/
+http://www.dspace.org/license/
 
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
@@ -32,9 +32,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"
-    prefix="fmt" %>
+           prefix="fmt" %>
 
- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ taglib uri="http://www.dspace.org/dspace-tags.tld" prefix="dspace" %>
 
@@ -53,6 +53,7 @@
 <%@ page import="org.dspace.app.util.SubmissionInfo" %>
 <%@ page import="org.dspace.app.webui.util.UIUtil" %>
 <%@ page import="org.dspace.globus.Globus" %>
+<%@ page import="org.dspace.globus.GlobusWebAppIntegration" %>
 
 
 <%
@@ -287,7 +288,7 @@
 			$("#globus").show();
 		}
 		$('#spanGlobus').click(function(){
-			var globusWin = window.open("<%= Globus.getTransferPage(endpoint, pathToData)%>", "GlobusOps");
+			var globusWin = window.open('<%= GlobusWebAppIntegration.getWebAppFileManagerUrl(endpoint, pathToData, "destination")%>', 'GlobusOps');
 			globusWin.focus();
 		});
 
