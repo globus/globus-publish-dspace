@@ -28,9 +28,14 @@
     <property name="configurationService" ref="org.dspace.services.ConfigurationService" />
   </bean>
 
+  <bean id="org.dspace.identifier.GlobusIdentifierProvider" class="org.dspace.identifier.GlobusIdentifierProvider"
+    scope="singleton">
+    <property name="configurationService" ref="org.dspace.services.ConfigurationService" />
+  </bean>
+
   <bean id="org.dspace.identifier.EZIDIdentifierProvider"
         class="org.dspace.identifier.EZIDIdentifierProvider"
-        scope='singleton'>
+        scope="singleton">
     <description>Uses the EZID service to provide DOI identifiers from DataCite</description>
     <property name="configurationService"
               ref="org.dspace.services.ConfigurationService"/>

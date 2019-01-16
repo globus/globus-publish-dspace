@@ -33,6 +33,7 @@ public interface GlobusRestInterface
         atmosphere("atmosphere"),
         publish("publish"),
         search("search.api.globus.org"),
+        identifiers("identifiers.globus.org"),
         xsede("xsede");
 
         private String typeName;

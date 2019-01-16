@@ -20,7 +20,6 @@ import org.dspace.content.Item;
 import org.dspace.core.Context;
 import org.dspace.globus.configuration.BaseConfigurable;
 import org.dspace.globus.configuration.Configurable;
-import org.dspace.globus.configuration.Configurable.ConfigurableProperty;
 import org.dspace.globus.configuration.GlobusConfigurationManager;
 import org.dspace.globus.configuration.ObjectConfigurable;
 import org.dspace.handle.HandleManager;
@@ -309,8 +308,8 @@ public class GlobusIdentifierService implements IdentifierService
     public void reserve(Context context, DSpaceObject dso)
             throws AuthorizeException, SQLException, IdentifierException
     {
-        IdentifierProvider service = getProviderForDso(context, dso);
-        service.mint(context, dso);
+        IdentifierProvider provider = getProviderForDso(context, dso);
+        provider.mint(context, dso);
         // Update our item
         dso.update();
     }
@@ -329,8 +328,8 @@ public class GlobusIdentifierService implements IdentifierService
     public void register(Context context, DSpaceObject dso)
             throws AuthorizeException, SQLException, IdentifierException
     {
-        IdentifierProvider service = getProviderForDso(context, dso);
-        String identifier = service.mint(context, dso);
+        IdentifierProvider provider = getProviderForDso(context, dso);
+        String identifier = provider.mint(context, dso);
         if (identifier != null)
         {
             addIdentifierToMetadata(dso, identifier);
@@ -341,7 +340,7 @@ public class GlobusIdentifierService implements IdentifierService
         {
             throw new IdentifierException(
                     "Failed to create identifier for dso " + dso
-                            + " using provider " + service);
+                            + " using provider " + provider);
         }
     }
 
@@ -349,9 +348,9 @@ public class GlobusIdentifierService implements IdentifierService
     public void register(Context context, DSpaceObject object, String identifier)
             throws AuthorizeException, SQLException, IdentifierException
     {
-        IdentifierProvider service = getProviderForIdentifier(identifier);
+        IdentifierProvider provider = getProviderForIdentifier(identifier);
 
-        service.register(context, object, identifier);
+        provider.register(context, object, identifier);
 
         // Update our item
         object.update();

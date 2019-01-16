@@ -169,7 +169,7 @@
         <dependency>
        	    <groupId>org.globus</groupId>
             <artifactId>globus-client</artifactId>
-            <version>0.0.2-SNAPSHOT</version>
+            <version>0.0.3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
