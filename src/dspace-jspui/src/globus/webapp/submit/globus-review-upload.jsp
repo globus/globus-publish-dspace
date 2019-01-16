@@ -16,11 +16,11 @@
 --%>
 
 <%--
-  - Review file upload info
-  -
-  - Parameters to pass in to this page (from review.jsp)
-  -    submission.jump - the step and page number (e.g. stepNum.pageNum) to create a "jump-to" link
-  --%>
+- Review file upload info
+-
+- Parameters to pass in to this page (from review.jsp)
+-    submission.jump - the step and page number (e.g. stepNum.pageNum) to create a "jump-to" link
+--%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 
 <%@page import="org.dspace.core.ConfigurationManager"%>
@@ -42,6 +42,7 @@
 <%@ page import="javax.servlet.jsp.PageContext"%>
 <%@ page import="org.dspace.globus.GlobusUIUtil" %>
 <%@ page import="org.dspace.globus.Globus" %>
+<%@ page import="org.dspace.globus.GlobusWebAppIntegration" %>
 <%@ page import="org.globus.GlobusClient" %>
 
 
@@ -88,7 +89,7 @@
 
 <script>
 function modifyClick() {
-	var globusWin = window.open("<%=Globus.getTransferPage(epName, epPath)%>", "GlobusOps");
+	var globusWin = window.open('<%=GlobusWebAppIntegration.getWebAppFileManagerUrl(epName, epPath, "destination")%>', 'GlobusOps');
 	globusWin.focus();
 }
 </script>

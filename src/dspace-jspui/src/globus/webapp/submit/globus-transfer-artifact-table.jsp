@@ -16,7 +16,7 @@
 --%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	 pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <%@ page import="org.dspace.globus.GlobusUIUtil"%>
@@ -29,6 +29,7 @@
 <%@ page import="org.dspace.app.webui.servlet.SubmissionController"%>
 <%@ page import="org.dspace.app.webui.util.UIUtil"%>
 <%@ page import="org.dspace.globus.Globus"%>
+<%@ page import="org.dspace.globus.GlobusWebAppIntegration"%>
 <%@ page import="org.dspace.app.util.SubmissionInfo"%>
 <%@ page import="org.dspace.content.Item"%>
 
@@ -64,7 +65,7 @@
 	    	Task task = taskList.get(i);
 	        String rowEvenOdd = evenOdd[(i + 1) % 2];
 	        String manageUrl;
-            manageUrl = Globus.getTransferActivityPage(task.taskId);
+            manageUrl = GlobusWebAppIntegration.getWebAppActivityUrl(task.taskId);
 	%>
 
 			<tr>

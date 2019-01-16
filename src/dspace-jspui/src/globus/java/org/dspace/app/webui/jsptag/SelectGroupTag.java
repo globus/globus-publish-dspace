@@ -36,7 +36,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.dspace.eperson.Group;
-import org.dspace.globus.Globus;
+import org.dspace.globus.GlobusWebAppIntegration;
 /**
  * <P>Tag for producing an e-person select widget in a form.  Somewhat
  * analogous to the HTML SELECT element.  An input
@@ -191,7 +191,7 @@ public class SelectGroupTag extends TagSupport
             }
 
             out.print("<input class=\"btn btn-primary pull-right\" type=\"button\" value=\"" + p
-                            + "\" onclick=\"window.location.href='" + Globus.getGroupSelectPage(groupId, redirectURL, collectionHandle, communityHandle, false) + "'\" />");
+                      + "\" onclick=\"window.location.href='" + GlobusWebAppIntegration.getGroupSelectionUrl(groupId, redirectURL, collectionHandle, communityHandle, false) + "'\" />");
             out.print("</div>");
 		}
 		catch (IOException ie)

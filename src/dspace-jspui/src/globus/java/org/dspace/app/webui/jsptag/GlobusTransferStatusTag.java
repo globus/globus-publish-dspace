@@ -30,6 +30,7 @@ import org.dspace.content.Item;
 import org.dspace.core.Context;
 import org.dspace.globus.Globus;
 import org.dspace.globus.GlobusUIUtil;
+import org.dspace.globus.GlobusWebAppIntegration;
 import org.globus.GlobusClient;
 import org.globus.transfer.Task;
 
@@ -250,7 +251,7 @@ public class GlobusTransferStatusTag extends TagSupport
     private void appendTaskRow(StringBuffer buf, String rowEvenOdd, DateFormat dateFormat,
                                Task task, boolean asUser)
     {
-        String manageUrl = Globus.getTransferActivityPage(task.taskId);
+        String manageUrl = GlobusWebAppIntegration.getWebAppActivityUrl(task.taskId);
         List<String> cells = new ArrayList<String>();
         cells.add("<a target=\"GlobusOps\" href=\"" + manageUrl + "\">" + task.status + "</a>");
         if (asUser) {

@@ -37,6 +37,7 @@ import org.dspace.core.LogManager;
 import org.dspace.eperson.EPerson;
 import org.dspace.globus.Globus;
 import org.dspace.globus.GlobusUIUtil;
+import org.dspace.submit.step.DescribeStep;
 import org.dspace.submit.step.UploadStep;
 import org.dspace.utils.DSpace;
 import org.globus.transfer.Task;
@@ -92,7 +93,8 @@ public class JSPGlobusTransferStep extends JSPStep
             Item item = subItem.getItem();
             Collection c = subItem.getCollection();
             try {
-                DCInputsReader inputsReader = new DCInputsReader();
+                // DCInputsReader inputsReader = new DCInputsReader();
+                DCInputsReader inputsReader = DescribeStep.getInputsReader(c);
                 request.setAttribute("submission.inputs", inputsReader.getInputs(c.getHandle()));
             } catch (DCInputsReaderException e) {
                 throw new ServletException(e);
