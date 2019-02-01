@@ -74,14 +74,13 @@
      -->
 
        <field>
-         <dc-schema>dc</dc-schema>
-         <dc-element>date</dc-element>
-         <dc-qualifier>issued</dc-qualifier>
+         <dc-schema>datacite</dc-schema>
+         <dc-element>publicationyear</dc-element>
          <repeatable>false</repeatable>
-         <label>Publication Date</label>
-<!--         <input-type>onebox</input-type> -->
-         <input-type>date</input-type>
-         <hint>The year (or full date) when the dataset was or will be
+         <label>Publication Year</label>
+         <input-type>onebox</input-type>
+<!--         <input-type>date</input-type> -->
+         <hint>The year (4 digits exactly) when the dataset was or will be
 	 publicly available.</hint>
          <required>Publication year is required</required>
        </field>

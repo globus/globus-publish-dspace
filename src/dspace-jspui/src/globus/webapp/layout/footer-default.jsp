@@ -59,12 +59,8 @@
 </main>
             <%-- Page footer --%>
              <footer class="navbar-bottom">
-             <div class="container glbs_footer">
-			    <span class="globus_copyright">
-			        &copy; 2010-<span class="year">2017</span> Computation Institute, University of Chicago, Argonne National Laboratory
-			    </span>
-			    <a href="https://www.globus.org/legal" class="globus_legal">legal</a>
-			</div>
+               <div class="container glbs_footer">
+	       </div>
 			<%--
              <div id="designedby" class="container text-muted">--%>
              <%--

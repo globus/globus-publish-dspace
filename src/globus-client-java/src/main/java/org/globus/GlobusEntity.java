@@ -10,14 +10,18 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.Map;
+import java.util.HashMap;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.SerializationConfig;
 import org.codehaus.jackson.map.SerializationConfig.Feature;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
@@ -29,6 +33,7 @@ import org.codehaus.jackson.node.ObjectNode;
 public class GlobusEntity
 {
     protected GlobusRestInterface intfImpl;
+    private Map<String, String> jsonProperties = null;
 
 
     /**
@@ -49,6 +54,14 @@ public class GlobusEntity
         this.intfImpl = intfImpl;
     }
 
+    @JsonAnySetter
+    public synchronized void setJsonProperty(String key, String value)
+    {
+        if (jsonProperties == null) {
+            jsonProperties = new HashMap<>();
+        }
+        jsonProperties.put(key, value);
+    }
     /**
      * @param string
      * @param attrMap
@@ -167,15 +180,21 @@ public class GlobusEntity
         }
     }
 
-    private static ObjectMapper mapper = null;
+    protected static ObjectMapper mapper = null;
 
-
-    public synchronized static <T> T fromJson(String json, Class<T> cls) throws IOException
+    private synchronized static ObjectMapper getMapper()
     {
-        if (mapper == null) {
+    	if (mapper == null) {
             mapper = new ObjectMapper();
-        }
-        T obj = mapper.readValue(json, cls);
+            mapper.configure(Feature.WRITE_NULL_MAP_VALUES, false);
+            mapper.configure(Feature.WRITE_NULL_PROPERTIES, false);
+    	}
+    	return mapper;
+    }
+    
+    public static <T> T fromJson(String json, Class<T> cls) throws IOException
+    {
+        T obj = getMapper().readValue(json, cls);
         return obj;
     }
     
@@ -184,14 +203,9 @@ public class GlobusEntity
         return (T[]) fromJson(json, java.lang.reflect.Array.newInstance(cls, 0).getClass());
     }
     
-    public synchronized String toJson() throws JsonGenerationException, JsonMappingException, IOException
+    public String toJson() throws JsonGenerationException, JsonMappingException, IOException
     {
-        if (mapper == null) {
-            mapper = new ObjectMapper();
-            mapper.configure(Feature.WRITE_NULL_MAP_VALUES, false);
-        }
-        
-        return mapper.writeValueAsString(this);
+        return getMapper().writeValueAsString(this);
     }
     
     public String toString()

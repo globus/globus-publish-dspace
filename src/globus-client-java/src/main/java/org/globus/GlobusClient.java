@@ -115,7 +115,7 @@ public class GlobusClient
      */
     private LRUCacheWithTimeout<String, Object> groupOpCache;
 
-    GlobusClient()
+    protected GlobusClient()
     {
         restClient = ClientCreation.createRestClient();
     }
@@ -352,6 +352,15 @@ public class GlobusClient
         }
         WebResource resource = restClient.resource(fullPath.toString());
         resource.setProperty("REQUEST_TYPE", requestType);
+
+        // If this is a GlobusEntity, we'll serialize explicitly in case there's any special handling
+        if (requestEntity instanceof GlobusEntity) {
+            try {
+                requestEntity = ((GlobusEntity) requestEntity).toJson();
+            } catch (IOException e) {
+                // Let this go and we'll just try to serialize it on the call
+            }
+        }
         /*
          * String json = generateJsonForRequestEntity(requestEntity); if (json != null) {
          * System.out.println("Json to be output: " + json); }

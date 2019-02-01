@@ -22,22 +22,17 @@ package org.dspace.discovery;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.dspace.authorize.AuthorizeManager;
 import org.dspace.content.Collection;
 import org.dspace.content.DSpaceObject;
 import org.dspace.content.Item;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
-import org.dspace.eperson.Group;
 import org.dspace.globus.Globus;
 import org.dspace.globus.GlobusSearchClient;
 import org.globus.GlobusClient;
-import org.globus.GlobusClientException;
 import org.globus.GlobusRestInterface.RequestType;
 import org.globus.auth.GlobusAuthToken;
 import org.json.JSONObject;
@@ -82,51 +77,6 @@ public class GlobusSearchServiceImpl extends SolrServiceImpl
     private String subjectForItem(Item item)
     {
         return item.getUri();
-    }
-
-    private void getSubGroupsTransitive(Group g, Set<Group> groups)
-    {
-        if (!groups.contains(g)) {
-            groups.add(g);
-            for (Group sg : g.getMemberGroups()) {
-                getSubGroupsTransitive(sg, groups);
-            }
-        }
-    }
-    /**
-     * @param dso
-     * @return
-     */
-    private String[] visibleToListForDSpaceObject(Context context,
-            DSpaceObject dso)
-    {
-        try
-        {
-            Group[] authorizedGroups = 
-                    AuthorizeManager.getAuthorizedGroups(context, dso, 
-                                                         Constants.READ);
-            ArrayList<String> visibleTo = new ArrayList<String>();
-            if (authorizedGroups != null) {
-                Set<Group> allGroups = new HashSet<Group>();
-                for (Group group : authorizedGroups)
-                {
-                    getSubGroupsTransitive(group, allGroups);
-                }
-                for (Group group : allGroups) {
-                    if (group.isAnon()) {
-                        visibleTo.add("public");
-                    } else if (Globus.isGlobusGroup(group.getName())) {
-                        visibleTo.add(Globus.getUnPrefixedGroupID(group.getName()));
-                    }
-                }
-            }
-            return visibleTo.toArray(new String[0]);
-        }
-        catch (SQLException e)
-        {
-            log.error("Unable to get groups " + e);
-        }
-        return null;
     }
 
     /**
@@ -199,7 +149,8 @@ public class GlobusSearchServiceImpl extends SolrServiceImpl
         Item item = (Item) dso;
         Collection coll = item.getOwningCollection();
         JSONObject content = gmetaContentForItem(context, item, coll);
-        String[] visibleTo = visibleToListForDSpaceObject(context, dso);
+        String[] visibleTo = Globus.visibleToListForDSpaceObject(context, dso,
+                                                                 null);
         String subject = subjectForItem(item);
         String[] searchSpecs = searchUrlSpec.split("\\;");
         for (String searchSpec : searchSpecs)
