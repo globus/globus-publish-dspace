@@ -28,7 +28,7 @@ import org.globus.auth.GlobusAuthToken;
 
 public class IdentifiersClient extends GlobusClient implements IdentifiersInterface
 {
-    private static final DEFAULT_SERVICE_URL = "https://identifiers.globus.org";
+    private static final String DEFAULT_SERVICE_URL = "https://identifiers.globus.org";
     // private static final String DEFAULT_SERVICE_URL = "http://localhost:5000";
 
     public IdentifiersClient() {
