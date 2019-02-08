@@ -77,7 +77,9 @@ public class GlobusWebAppIntegration
             Globus.getGlobusConfigProperty(GLOBUS_WEBAPP_BASE_PROPNAME) +
             Globus.getGlobusConfigProperty(GLOBUS_WEBAPP_GROUP_URL_TEMPLATE_PROPNAME);
         Map<String, String> templateProps = new HashMap<>();
-        templateProps.put("groupId", groupId);
+        // Strip off the :G: prefix if present
+        
+        templateProps.put("groupId", Globus.getUnPrefixedGroupID(groupId));
         String groupWebAppUrl = templateReplacement(groupWebAppUrlTemplate,
                                                     templateProps);
         return groupWebAppUrl;        

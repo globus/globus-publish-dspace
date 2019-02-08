@@ -20,21 +20,21 @@
 
 <%--
 
-    The contents of this file are subject to the license and copyright
-    detailed in the LICENSE and NOTICE files at the root of the source
-    tree and available online at
+The contents of this file are subject to the license and copyright
+detailed in the LICENSE and NOTICE files at the root of the source
+tree and available online at
 
-    http://www.dspace.org/license/
+http://www.dspace.org/license/
 
 --%>
 <%--
-  - Show form allowing edit of collection metadata
-  -
-  - Attributes:
-  -    community    - community to create new collection in, if creating one
-  -    collection   - collection to edit, if editing an existing one.  If this
-  -                  is null, we are creating one.
-  --%>
+- Show form allowing edit of collection metadata
+-
+- Attributes:
+-    community    - community to create new collection in, if creating one
+-    collection   - collection to edit, if editing an existing one.  If this
+-                  is null, we are creating one.
+--%>
 
 <%@ page contentType="text/html;charset=UTF-8" %>
 
@@ -54,6 +54,7 @@
 <%@ page import="javax.servlet.jsp.jstl.fmt.LocaleSupport" %>
 <%@ page import="java.util.Enumeration" %>
 <%@ page import="org.dspace.globus.Globus" %>
+<%@ page import="org.dspace.globus.GlobusWebAppIntegration" %>
 
 <%@ taglib uri="http://www.dspace.org/dspace-tags.tld" prefix="dspace" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -61,167 +62,167 @@
 <fmt:message key="jsp.tools.edit-collection.form.button.select" var="selectSelectButtonTitle"/>
 <fmt:message key="jsp.tools.edit-collection.form.button.change" var="selectChangeButtonTitle"/>
 <%
-	Context context = UIUtil.obtainContext(request);
-    Collection collection = (Collection) request.getAttribute("collection");
-    Community community = (Community) request.getAttribute("community");
-	DSpaceObject objToIntrospect = (collection != null ? collection : community);
+Context context = UIUtil.obtainContext(request);
+Collection collection = (Collection) request.getAttribute("collection");
+Community community = (Community) request.getAttribute("community");
+DSpaceObject objToIntrospect = (collection != null ? collection : community);
 
-    Boolean adminCollection = (Boolean)request.getAttribute("admin_collection");
-    boolean bAdminCollection = (adminCollection == null ? false : adminCollection.booleanValue());
+Boolean adminCollection = (Boolean)request.getAttribute("admin_collection");
+boolean bAdminCollection = (adminCollection == null ? false : adminCollection.booleanValue());
 
-    Boolean adminCreateGroup = (Boolean)request.getAttribute("admin_create_button");
-    boolean bAdminCreateGroup = (adminCreateGroup == null ? false : adminCreateGroup.booleanValue());
+Boolean adminCreateGroup = (Boolean)request.getAttribute("admin_create_button");
+boolean bAdminCreateGroup = (adminCreateGroup == null ? false : adminCreateGroup.booleanValue());
 
-    Boolean adminRemoveGroup = (Boolean)request.getAttribute("admin_remove_button");
-    boolean bAdminRemoveGroup = (adminRemoveGroup == null ? false : adminRemoveGroup.booleanValue());
+Boolean adminRemoveGroup = (Boolean)request.getAttribute("admin_remove_button");
+boolean bAdminRemoveGroup = (adminRemoveGroup == null ? false : adminRemoveGroup.booleanValue());
 
-    Boolean workflowsButton = (Boolean)request.getAttribute("workflows_button");
-    boolean bWorkflowsButton = (workflowsButton == null ? false : workflowsButton.booleanValue());
+Boolean workflowsButton = (Boolean)request.getAttribute("workflows_button");
+boolean bWorkflowsButton = (workflowsButton == null ? false : workflowsButton.booleanValue());
 
-    Boolean submittersButton = (Boolean)request.getAttribute("submitters_button");
-    boolean bSubmittersButton = (submittersButton == null ? false : submittersButton.booleanValue());
+Boolean submittersButton = (Boolean)request.getAttribute("submitters_button");
+boolean bSubmittersButton = (submittersButton == null ? false : submittersButton.booleanValue());
 
-    Boolean readersButton = (Boolean)request.getAttribute("readers_button");
-    boolean bReadersButton = (readersButton == null ? false : readersButton.booleanValue());
+Boolean readersButton = (Boolean)request.getAttribute("readers_button");
+boolean bReadersButton = (readersButton == null ? false : readersButton.booleanValue());
 
-    Boolean templateButton = (Boolean)request.getAttribute("template_button");
-    boolean bTemplateButton = (templateButton == null ? false : templateButton.booleanValue());
+Boolean templateButton = (Boolean)request.getAttribute("template_button");
+boolean bTemplateButton = (templateButton == null ? false : templateButton.booleanValue());
 
-    Boolean policyButton = (Boolean)request.getAttribute("policy_button");
-    boolean bPolicyButton = (policyButton == null ? false : policyButton.booleanValue());
+Boolean policyButton = (Boolean)request.getAttribute("policy_button");
+boolean bPolicyButton = (policyButton == null ? false : policyButton.booleanValue());
 
-    Boolean deleteButton = (Boolean)request.getAttribute("delete_button");
-    boolean bDeleteButton = (deleteButton == null ? false : deleteButton.booleanValue());
+Boolean deleteButton = (Boolean)request.getAttribute("delete_button");
+boolean bDeleteButton = (deleteButton == null ? false : deleteButton.booleanValue());
 
-    // Is the logged in user a sys admin
-    Boolean admin = (Boolean)request.getAttribute("is.admin");
-    boolean isAdmin = (admin == null ? false : admin.booleanValue());
+// Is the logged in user a sys admin
+Boolean admin = (Boolean)request.getAttribute("is.admin");
+boolean isAdmin = (admin == null ? false : admin.booleanValue());
 
-    HarvestedCollection hc = (HarvestedCollection) request.getAttribute("harvestInstance");
+HarvestedCollection hc = (HarvestedCollection) request.getAttribute("harvestInstance");
 
-    String name = "";
-    String shortDesc = "";
-    String intro = "";
-    String copy = "";
-    String side = "";
-    String license = "";
-    String provenance = "";
+String name = "";
+String shortDesc = "";
+String intro = "";
+String copy = "";
+String side = "";
+String license = "";
+String provenance = "";
 
-    String oaiProviderValue= "";
-	String oaiSetIdValue= "";
-	String metadataFormatValue= "";
-	String lastHarvestMsg= "";
-	int harvestLevelValue=0;
-	int harvestStatus= 0;
+String oaiProviderValue= "";
+String oaiSetIdValue= "";
+String metadataFormatValue= "";
+String lastHarvestMsg= "";
+int harvestLevelValue=0;
+int harvestStatus= 0;
 
-    Group[] wfGroups = new Group[3];
-    wfGroups[0] = null;
-    wfGroups[1] = null;
-    wfGroups[2] = null;
+Group[] wfGroups = new Group[3];
+wfGroups[0] = null;
+wfGroups[1] = null;
+wfGroups[2] = null;
 
-    Group admins     = null;
-    Group submitters = null;
-	Group readers	 = null;
-	Group workflowGroup = null;
+Group admins     = null;
+Group submitters = null;
+Group readers	 = null;
+Group workflowGroup = null;
 
-	String submitAllChecked = "checked";
-	String submitRestrictedChecked = "";
-    String submittersButtonShown = "style=\"display: none\" ";
+String submitAllChecked = "checked";
+String submitRestrictedChecked = "";
+String submittersButtonShown = "style=\"display: none\" ";
 
-	String readersAllChecked = "checked";
-	String readersRestrictedChecked = "";
-    String readersButtonShown = "style=\"display: none\" ";
+String readersAllChecked = "checked";
+String readersRestrictedChecked = "";
+String readersButtonShown = "style=\"display: none\" ";
 
-    Item template = null;
+Item template = null;
 
 /*  Bitstream logo = null; */
 
-	String submitGroupsLink = "";
-	String readerGroupsLink = "";
-	String workflowGroupsLink =  "";
+String submitGroupsLink = "";
+String readerGroupsLink = "";
+String workflowGroupsLink =  "";
 
-    if (collection != null)
-    {
-        name = collection.getMetadata("name");
-        shortDesc = collection.getMetadata("short_description");
-        intro = collection.getMetadata("introductory_text");
-        copy = collection.getMetadata("copyright_text");
-        side = collection.getMetadata("side_bar_text");
-        provenance = collection.getMetadata("provenance_description");
+if (collection != null)
+{
+  name = collection.getMetadata("name");
+  shortDesc = collection.getMetadata("short_description");
+  intro = collection.getMetadata("introductory_text");
+  copy = collection.getMetadata("copyright_text");
+  side = collection.getMetadata("side_bar_text");
+  provenance = collection.getMetadata("provenance_description");
 
-        if (collection.hasCustomLicense())
-        {
-            license = collection.getLicense();
-        }
+  if (collection.hasCustomLicense())
+  {
+    license = collection.getLicense();
+  }
 
-        wfGroups[0] = collection.getWorkflowGroup(1);
-        wfGroups[1] = collection.getWorkflowGroup(2);
-        wfGroups[2] = collection.getWorkflowGroup(3);
+  wfGroups[0] = collection.getWorkflowGroup(1);
+  wfGroups[1] = collection.getWorkflowGroup(2);
+  wfGroups[2] = collection.getWorkflowGroup(3);
 
-//        admins     = collection.getAdministrators();
-		admins = collection.getPolicyGroup(PolicyType.ADMIN);
-//       submitters = collection.getSubmitters();
-		submitters = collection.getPolicyGroup(PolicyType.SUBMIT);
-		Group submitTarget = collection.getPolicyTargetGroup(PolicyType.SUBMIT);
+  //        admins     = collection.getAdministrators();
+  admins = collection.getPolicyGroup(PolicyType.ADMIN);
+  //       submitters = collection.getSubmitters();
+  submitters = collection.getPolicyGroup(PolicyType.SUBMIT);
+  Group submitTarget = collection.getPolicyTargetGroup(PolicyType.SUBMIT);
 
-        // readers = collection.getReaders();
-        readers = collection.getPolicyGroup(PolicyType.READ);
-        Group readTarget = collection.getPolicyTargetGroup(PolicyType.READ);
+  // readers = collection.getReaders();
+  readers = collection.getPolicyGroup(PolicyType.READ);
+  Group readTarget = collection.getPolicyTargetGroup(PolicyType.READ);
 
-        // Set up checked attributes for the radio buttons. Null or group 0
-        // (which is anonymous) means we pre-check All users. Else we pre-check Restricted
-        // and display the selected group
-        if (submitTarget == null || submitTarget.isAnon()) {
-            submitAllChecked = "checked";
-            submittersButtonShown = "style=\"display: none\" ";
-        } else {
-            submitRestrictedChecked = "checked";
-            submittersButtonShown = "";
-			submitGroupsLink = Globus.getGlobusGroupLink(submitTarget.getName(), 20);
-        }
+  // Set up checked attributes for the radio buttons. Null or group 0
+  // (which is anonymous) means we pre-check All users. Else we pre-check Restricted
+  // and display the selected group
+  if (submitTarget == null || submitTarget.isAnon()) {
+    submitAllChecked = "checked";
+    submittersButtonShown = "style=\"display: none\" ";
+  } else {
+    submitRestrictedChecked = "checked";
+    submittersButtonShown = "";
+    submitGroupsLink = GlobusWebAppIntegration.getGlobusGroupHrefTag(submitTarget.getName(), 20);
+  }
 
-        if (readTarget == null || readTarget.isAnon()) {
-            readersAllChecked = "checked";
-            readersButtonShown = "style=\"display: none\" ";
-        } else {
-            readersRestrictedChecked = "checked";
-            readersButtonShown = "";
-			readerGroupsLink = Globus.getGlobusGroupLink(readTarget.getName(), 20);
+  if (readTarget == null || readTarget.isAnon()) {
+    readersAllChecked = "checked";
+    readersButtonShown = "style=\"display: none\" ";
+  } else {
+    readersRestrictedChecked = "checked";
+    readersButtonShown = "";
+    readerGroupsLink = GlobusWebAppIntegration.getGlobusGroupHrefTag(readTarget.getName(), 20);
 
-        }
+  }
 
-        // get a list of all valid configurations (only one should be valid)
-        Group[] workflowMembers;
+  // get a list of all valid configurations (only one should be valid)
+  Group[] workflowMembers;
 
-        for (int i = 1; i <= 3; i++) {
-            workflowGroup = collection.getWorkflowGroup(i);
-            if (workflowGroup != null) {
-		   		workflowMembers = workflowGroup.getMemberGroups();
-		    	if (workflowMembers != null && workflowMembers.length >= 1){
-		    		workflowGroupsLink = Globus.getGlobusGroupLink(workflowMembers[0].getName(), 20);
-		    		break;
-		    	}
-		    }
-       	}
-
-
-        template = collection.getTemplateItem();
-
-        /*
-        logo = collection.getLogo();
-        */
-
-        /* Harvesting stuff */
-        if (hc != null) {
-			oaiProviderValue = hc.getOaiSource();
-			oaiSetIdValue = hc.getOaiSetId();
-			metadataFormatValue = hc.getHarvestMetadataConfig();
-			harvestLevelValue = hc.getHarvestType();
-			lastHarvestMsg= hc.getHarvestMessage();
-			harvestStatus = hc.getHarvestStatus();
-		}
-
+  for (int i = 1; i <= 3; i++) {
+    workflowGroup = collection.getWorkflowGroup(i);
+    if (workflowGroup != null) {
+      workflowMembers = workflowGroup.getMemberGroups();
+      if (workflowMembers != null && workflowMembers.length >= 1){
+	workflowGroupsLink = GlobusWebAppIntegration.getGlobusGroupHrefTag(workflowMembers[0].getName(), 20);
+	break;
+      }
     }
+  }
+
+
+  template = collection.getTemplateItem();
+
+  /*
+     logo = collection.getLogo();
+   */
+
+  /* Harvesting stuff */
+  if (hc != null) {
+    oaiProviderValue = hc.getOaiSource();
+    oaiSetIdValue = hc.getOaiSetId();
+    metadataFormatValue = hc.getHarvestMetadataConfig();
+    harvestLevelValue = hc.getHarvestType();
+    lastHarvestMsg= hc.getHarvestMessage();
+    harvestStatus = hc.getHarvestStatus();
+  }
+
+}
 %>
 
 
