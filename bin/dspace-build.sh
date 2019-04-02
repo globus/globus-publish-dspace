@@ -122,7 +122,7 @@ done
 
 IFS=$oldIFS
 
-dspaceTargetDir=$dspaceSrc/dspace/target/dspace-4.2-build
+dspaceTargetDir=$dspaceSrc/dspace/target/dspace-build
 
 (cd $devroot/lib && ./install-jars-to-maven.sh)
 
@@ -144,7 +144,7 @@ fi
 
 cp -vf $dspaceSrc/dspace-jspui/src/main/webapp/static/css/fonts/glyph* $dspaceTargetDir/webapps/jspui/static/css/fonts
 
-(cd $dspaceTargetDir && ant update update_configs)
+(cd $dspaceTargetDir && ant update)
 
 if ! [ -z "$CATALINA_USER" ]; then
     if ! [ -z "$CATALINA_PASSWORD" ]; then

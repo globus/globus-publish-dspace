@@ -85,6 +85,17 @@
          <required>Publication year is required</required>
        </field>
 
+       <field>
+         <dc-schema>datacite</dc-schema>
+         <dc-element>resourcetype</dc-element>
+         <dc-qualifier></dc-qualifier>
+         <repeatable>true</repeatable>
+         <label>Resource Type</label>
+         <input-type value-pairs-name="datacite_resource_types">dropdown</input-type>
+         <hint>Classification of the content of the dataset</hint>
+         <required>A Resource-type value must be selected</required>
+       </field>
+
         <!-- This is a Datacite OPTIONAL Field -->
         <field>
           <dc-schema>dc</dc-schema>
@@ -129,17 +140,6 @@
          <label>Description</label>
          <input-type>textarea</input-type>
          <hint>All additional information that does not fit in any of the other categories. May be used for technical information.</hint>
-         <required></required>
-       </field>
-
-       <field>
-         <dc-schema>datacite</dc-schema>
-         <dc-element>resourcetype</dc-element>
-         <dc-qualifier></dc-qualifier>
-         <repeatable>true</repeatable>
-         <label>Resource Type</label>
-         <input-type value-pairs-name="datacite_resource_types">dropdown</input-type>
-         <hint>Classification of the content of the dataset</hint>
          <required></required>
        </field>
 

@@ -48,6 +48,7 @@
 <%@ page import="org.dspace.eperson.EPerson" %>
 <%@ page import="org.dspace.eperson.Group" %>
 <%@ page import="org.dspace.globus.Globus" %>
+<%@ page import="org.dspace.core.Utils" %>
 
 <%
     Group[] groups =

@@ -98,8 +98,10 @@
                parentlink="/dspace-admin"
                nocache="true">
 
-	<h1 style="text-align:center"><fmt:message key="jsp.tools.group-edit.title"/></h1>
-    <form name="epersongroup" method="post" action="">
+  <h1><fmt:message key="jsp.tools.group-edit.title"/> : <%=Utils.addEntities(group.getName())%> (id: <%=group.getID()%>)
+  </h1>
+          <form name="epersongroup" method="post" action="">
+            
 	<br/>
     <%--  <div class="alert alert-warning"><fmt:message key="jsp.tools.group-edit.heading"/></div> --%>
 

@@ -37,6 +37,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 import org.apache.commons.lang.ArrayUtils;
 import org.dspace.eperson.Group;
 import org.dspace.globus.GlobusWebAppIntegration;
+
 /**
  * <P>Tag for producing an e-person select widget in a form.  Somewhat
  * analogous to the HTML SELECT element.  An input

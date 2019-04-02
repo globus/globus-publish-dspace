@@ -52,6 +52,7 @@ import org.dspace.browse.IndexBrowse;
 import org.dspace.content.authority.ChoiceAuthorityManager;
 import org.dspace.content.authority.Choices;
 import org.dspace.content.authority.MetadataAuthorityManager;
+import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
 import org.dspace.core.LogManager;
@@ -68,6 +69,8 @@ import org.dspace.storage.rdbms.TableRow;
 import org.dspace.storage.rdbms.TableRowIterator;
 import org.dspace.utils.DSpace;
 import org.dspace.versioning.VersioningService;
+import org.dspace.workflow.WorkflowItem;
+import org.dspace.xmlworkflow.storedcomponents.XmlWorkflowItem;
 
 /**
  * Class representing an item in DSpace.
@@ -1990,8 +1993,14 @@ public class Item extends DSpaceObject
 
         ourContext.addEvent(new Event(Event.MODIFY, Constants.ITEM, getID(), "WITHDRAW"));
 
-        // remove all authorization policies, saving the custom ones
-        AuthorizeManager.removeAllPoliciesByDSOAndTypeNotEqualsTo(ourContext, this, ResourcePolicy.TYPE_CUSTOM);
+        // switch all READ authorization policies to WITHDRAWN_READ
+		AuthorizeManager.switchPoliciesAction(ourContext, this, Constants.READ, Constants.WITHDRAWN_READ);
+		for (Bundle bnd : this.getBundles()) {
+			AuthorizeManager.switchPoliciesAction(ourContext, bnd, Constants.READ, Constants.WITHDRAWN_READ);
+			for (Bitstream bs : bnd.getBitstreams()) {
+				AuthorizeManager.switchPoliciesAction(ourContext, bs, Constants.READ, Constants.WITHDRAWN_READ);
+			}
+		}
 
         // Write log
         log.info(LogManager.getHeader(ourContext, "withdraw_item", "user="
@@ -2047,15 +2056,25 @@ public class Item extends DSpaceObject
 
         ourContext.addEvent(new Event(Event.MODIFY, Constants.ITEM, getID(), "REINSTATE"));
 
-        // authorization policies
-        if (colls.length > 0)
-        {
-            // FIXME: not multiple inclusion friendly - just apply access
-            // policies from first collection
-            // remove the item's policies and replace them with
-            // the defaults from the collection
-            inheritCollectionDefaultPolicies(colls[0]);
-        }
+        // restore all WITHDRAWN_READ authorization policies back to READ
+		for (Bundle bnd : this.getBundles()) {
+			AuthorizeManager.switchPoliciesAction(ourContext, bnd, Constants.WITHDRAWN_READ, Constants.READ);
+			for (Bitstream bs : bnd.getBitstreams()) {
+				AuthorizeManager.switchPoliciesAction(ourContext, bs, Constants.WITHDRAWN_READ, Constants.READ);
+			}
+		}
+
+		// check if the item was withdrawn before the fix DS-3097
+		if (AuthorizeManager.getPoliciesActionFilter(ourContext, this, Constants.WITHDRAWN_READ).size() != 0) {
+			AuthorizeManager.switchPoliciesAction(ourContext, this, Constants.WITHDRAWN_READ, Constants.READ);
+		} else {
+			// authorization policies
+			if (colls.length > 0) {
+				// remove the item's policies and replace them with
+				// the defaults from the collection
+				adjustItemPolicies(getOwningCollection());
+			}
+		}
 
         // Write log
         log.info(LogManager.getHeader(ourContext, "reinstate_item", "user="
@@ -2592,7 +2611,12 @@ public class Item extends DSpaceObject
         // is this collection not yet created, and an item template is created
         if (getOwningCollection() == null)
         {
-            return true;
+        	if (!isInProgressSubmission()) {
+        		return true;
+        	}
+        	else {
+        		return false;
+        	}
         }
 
         // is this person an COLLECTION_EDITOR for the owning collection?
@@ -2603,7 +2627,21 @@ public class Item extends DSpaceObject
 
         return false;
     }
-
+    
+    /**
+     * Check if the item is an inprogress submission
+     * @param context
+     * @param item
+     * @return <code>true</code> if the item is an inprogress submission, i.e. a WorkspaceItem or WorkflowItem
+     * @throws SQLException
+     */
+    public boolean isInProgressSubmission() throws SQLException {
+		return WorkspaceItem.findByItem(ourContext, this) != null ||
+				((ConfigurationManager.getProperty("workflow", "workflow.framework").equals("xmlworkflow")
+						&& XmlWorkflowItem.findByItem(ourContext, this) != null)
+						|| WorkflowItem.findByItem(ourContext, this) != null);
+    }
+    
     public String getName()
     {
         DCValue t[] = getMetadata("dc", "title", null, Item.ANY);
