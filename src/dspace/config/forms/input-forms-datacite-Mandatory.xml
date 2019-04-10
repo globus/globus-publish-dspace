@@ -86,6 +86,17 @@
        </field>
 
        <field>
+         <dc-schema>datacite</dc-schema>
+         <dc-element>resourcetype</dc-element>
+         <dc-qualifier></dc-qualifier>
+         <repeatable>true</repeatable>
+         <label>Resource Type</label>
+         <input-type value-pairs-name="datacite_resource_types">dropdown</input-type>
+         <hint>Classification of the content of the dataset</hint>
+         <required>A Resource-type value must be selected</required>
+       </field>
+
+       <field>
          <dc-schema>dc</dc-schema>
          <dc-element>publisher</dc-element>
          <dc-qualifier></dc-qualifier>

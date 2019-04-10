@@ -11,7 +11,7 @@ This source code is provided as is without support as a demonstration of using [
 
 In addition to changes to support integration with the Globus platform services, this code release contains further changes to the DSpace source to facilitate operation as a service such as updates to some administrative interfaces to allow for self-service management of Communities and Collections, styling and appearance to match other Globus services, and use of additional persistent identifier services for creating citeable references to published datasets among others. These updates are present in this release, but may not be applicable in other environments.
 
-The code base contains files that are modified versions of original [DSpace source files](https://github.com/DSpace/DSpace) and other files which are original to this release. The modified DSpace source files are based on DSpace version 4.2. It is not expected that this code will work with other versions of the DSpace codebase, particularly major versions later than version 4. The new and modified source files are maintained under separate directory trees than the original DSpace source code. Where files are present in this release, the original DSpace files should be replaced. This can be achieved automatically using scripts, and is described below in the Installation Instructions.
+The code base contains files that are modified versions of original [DSpace source files](https://github.com/DSpace/DSpace) and other files which are original to this release. The modified DSpace source files are based on DSpace version 4.9. It is not expected that this code will work with other versions of the DSpace codebase, particularly major versions later than version 4. The new and modified source files are maintained under separate directory trees than the original DSpace source code. Where files are present in this release, the original DSpace files should be replaced. This can be achieved automatically using scripts, and is described below in the Installation Instructions.
 
 
 
@@ -33,9 +33,9 @@ These can be installed using appropriate package management tools or using the l
 
 ### Acquiring and configuring the source code
 
-* Download the standard [DSpace 4.2 source distribution](https://github.com/DSpace/DSpace/tree/dspace-4.2) from github to your local filesystem. We refer to the root of the unpacked source distribution as `[dspace]`.
+* Download the standard [DSpace 4.9 source distribution](https://github.com/DSpace/DSpace/tree/dspace-4.9) from github to your local filesystem. We refer to the root of the unpacked source distribution as `[dspace]`.
 
-* Download this [source code](https://github.com/globus/open_globus_data_publication) to a separate directory. We refer to the root of this source repo as `[globus_publish]`.
+* Download this [source code](https://github.com/globus/globus-publish-dspace) to a separate directory. We refer to the root of this source repo as `[globus_publish]`.
 
 * As a convenience, many basic build and installation steps outlined below can be bypassed by running the script found in `[globus_publish]/bin/dspace-build.sh` providing the path to `[dspace]` as the first argument (as in `[globus_publish]/bin/dspace-build.sh [dspace]`). Steps below marked with (Scripted) will be performed automatically by this script.
 
@@ -53,7 +53,7 @@ Some specific edits to be aware of:
 
 ### Build
 
-* As outlined in the DSpace documentation, edit `build.properties` appropriately.
+* As outlined in the DSpace documentation, edit `[dspace]/build.properties` appropriately.
 * (Scripted) Copy the build file from `[globus_publish]/src/dspace/src/globus/build.xml` to `[dspace]/dspace/src/main/config/build.xml`
 * (Scripted) In the directory `[globus_publish]/src/globus-client-java` run `mvn install -DskipTests`.
 
@@ -74,7 +74,7 @@ Some specific edits to be aware of:
     + `[globus_publish]/dspace/etc/postgres/globus_database_schema.sql [dspace]/dspace/etc/postgres/globus_database_schema.sql`
     + `ant update_globus_database`
 
-* (Scripted) Use the standard dspace build/installation mechanism (`mvn package` from `[dspace]` and `ant fresh_install` from `[dspace]/dspace/target/dspace-4.2-build`)
+* (Scripted) Use the standard dspace build/installation mechanism (`mvn package` from `[dspace]` and `ant fresh_install` from `[dspace]/dspace/target/dspace-build`)
 	- On subsequent builds, using `ant update update_configs` can be performed rather than `ant fresh_install`
 		+ Scripting note: the `dspace-build.sh` uses the update and update\_config flags. On first install, these will fail so a manual run of `ant fresh_install` will be required rather then relying on the script.
 

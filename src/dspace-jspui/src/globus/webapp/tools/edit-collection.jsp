@@ -115,10 +115,12 @@ String lastHarvestMsg= "";
 int harvestLevelValue=0;
 int harvestStatus= 0;
 
+/* JCP: Removed as wfGroups seems unused
 Group[] wfGroups = new Group[3];
 wfGroups[0] = null;
 wfGroups[1] = null;
 wfGroups[2] = null;
+*/
 
 Group admins     = null;
 Group submitters = null;
@@ -155,9 +157,11 @@ if (collection != null)
     license = collection.getLicense();
   }
 
+  /* JCP: Removed as wfGroups seems unused
   wfGroups[0] = collection.getWorkflowGroup(1);
   wfGroups[1] = collection.getWorkflowGroup(2);
   wfGroups[2] = collection.getWorkflowGroup(3);
+*/
 
   //        admins     = collection.getAdministrators();
   admins = collection.getPolicyGroup(PolicyType.ADMIN);

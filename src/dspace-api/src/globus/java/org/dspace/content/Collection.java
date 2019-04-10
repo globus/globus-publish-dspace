@@ -26,6 +26,19 @@
  */
 package org.dspace.content;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Serializable;
+import java.lang.reflect.Method;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.MissingResourceException;
+
 import org.apache.log4j.Logger;
 import org.dspace.app.util.AuthorizeUtil;
 import org.dspace.authorize.AuthorizeConfiguration;
@@ -36,9 +49,16 @@ import org.dspace.browse.BrowseException;
 import org.dspace.browse.IndexBrowse;
 import org.dspace.browse.ItemCountException;
 import org.dspace.browse.ItemCounter;
-import org.dspace.core.*;
+import org.dspace.core.ConfigurationManager;
+import org.dspace.core.Constants;
+import org.dspace.core.Context;
+import org.dspace.core.I18nUtil;
+import org.dspace.core.LicenseManager;
+import org.dspace.core.LogManager;
 import org.dspace.eperson.Group;
 import org.dspace.event.Event;
+import org.dspace.globus.Globus;
+import org.dspace.globus.configuration.GlobusConfigurationManager;
 import org.dspace.handle.HandleManager;
 import org.dspace.storage.rdbms.DatabaseManager;
 import org.dspace.storage.rdbms.TableRow;
@@ -46,20 +66,6 @@ import org.dspace.storage.rdbms.TableRowIterator;
 import org.dspace.workflow.WorkflowItem;
 import org.dspace.xmlworkflow.storedcomponents.CollectionRole;
 import org.dspace.xmlworkflow.storedcomponents.XmlWorkflowItem;
-import org.dspace.globus.Globus;
-import org.dspace.globus.configuration.GlobusConfigurationManager;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Method;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.MissingResourceException;
 
 /**
  * Class representing a collection.
@@ -72,7 +78,6 @@ import java.util.MissingResourceException;
  * is slightly different - creating or removing this has instant effect.
  *
  * @author Robert Tansley
- * @version $Revision$
  */
 public class Collection extends DSpaceObject
 {
@@ -474,10 +479,14 @@ public class Collection extends DSpaceObject
     public static Collection[] findAll(Context context, Integer limit,
             Integer offset) throws SQLException
     {
-        TableRowIterator tri = DatabaseManager.queryTable(context,
-                "collection",
-                "SELECT * FROM collection ORDER BY name limit ? offset ?",
-                limit, offset);
+        StringBuffer query = new StringBuffer("SELECT * FROM collection ORDER BY name");
+        List<Serializable> params = new ArrayList<Serializable>();
+
+        DatabaseManager.applyOffsetAndLimit(query, params, offset, limit);
+
+        TableRowIterator tri = DatabaseManager.query(
+          context, query.toString(), params.toArray()
+        );
 
         List<Collection> collections = new ArrayList<Collection>();
 
@@ -550,14 +559,20 @@ public class Collection extends DSpaceObject
     public ItemIterator getItems(Integer limit, Integer offset)
             throws SQLException
     {
-        String myQuery = "SELECT item.* FROM item, collection2item WHERE "
-                + "item.item_id=collection2item.item_id AND "
-                + "collection2item.collection_id= ? "
-                + "AND item.in_archive='1' limit ? offset ?";
+        List<Serializable> params = new ArrayList<Serializable>();
+        StringBuffer myQuery = new StringBuffer(
+            "SELECT item.* " + 
+            "FROM item, collection2item " + 
+            "WHERE item.item_id = collection2item.item_id " +
+              "AND collection2item.collection_id = ? " +
+              "AND item.in_archive = '1'"
+        );
 
-        TableRowIterator rows = DatabaseManager.queryTable(ourContext, "item",
-                myQuery, getID(), limit, offset);
+        params.add(getID());
+        DatabaseManager.applyOffsetAndLimit(myQuery, params, offset, limit);
 
+        TableRowIterator rows = DatabaseManager.query(ourContext,
+                myQuery.toString(), params.toArray());
         return new ItemIterator(ourContext, rows);
     }
 
@@ -810,15 +825,9 @@ public class Collection extends DSpaceObject
             g.setName("COLLECTION_" + getID() + "_WORKFLOW_STEP_" + step);
             g.update();
             setWorkflowGroup(step, g);
-
-            // This old code seems to imply that all curators can submit (add) to the
-            // group?
-            // Seems wrong and was messing things up with both workflow
-            // and ADD pointing to the same group. Replaced it with something better?
-//            AuthorizeManager.addPolicy(ourContext, this, Constants.ADD, g);
-            AuthorizeManager.addPolicy(ourContext, this, Constants.WORKFLOW_STEP_1 + step - 1, g);
         } else {
-            workflowGroup[step -1 ] = policyGroup;
+            // JCP: Porting forward from our previous code
+            workflowGroup[step - 1] = policyGroup;
         }
 
         return workflowGroup[step - 1];
@@ -831,32 +840,80 @@ public class Collection extends DSpaceObject
      *
      * @param step
      *            the workflow step (1-3)
-     * @param g
+     * @param newGroup
      *            the new workflow group, or <code>null</code>
+     * @throws java.sql.SQLException passed through.
+     * @throws org.dspace.authorize.AuthorizeException passed through.
      */
-    public void setWorkflowGroup(int step, Group g)
+    public void setWorkflowGroup(int step, Group newGroup)
+            throws SQLException, AuthorizeException
     {
-        PolicyType workflowPolicy = PolicyType.forWorkflowStep(step);
-
-
-        // Attempt to handle this in the same manner as all other policy groups. If this fails
-        // We fall back and handle it the old way.
-        try
+        Group oldGroup = getWorkflowGroup(step);
+        String stepColumn;
+        int action;
+        switch(step)
         {
-            if (workflowPolicy != null)
-            {
-                setPolicyTargetGroup(workflowPolicy, g);
-                g = getPolicyGroup(workflowPolicy);
-            }
+        case 1:
+            action = Constants.WORKFLOW_STEP_1;
+            stepColumn = "workflow_step_1";
+            break;
+        case 2:
+            action = Constants.WORKFLOW_STEP_2;
+            stepColumn = "workflow_step_2";
+            break;
+        case 3:
+            action = Constants.WORKFLOW_STEP_3;
+            stepColumn = "workflow_step_3";
+            break;
+        default:
+            throw new IllegalArgumentException("Illegal step count:  " + step);
         }
-        catch (Exception e)
-        {
-            log.warn("Unable to set policy " + workflowPolicy + " on " + this, e);
-        }
-
-        workflowGroup[step - 1] = g;
-
+        workflowGroup[step-1] = newGroup;
+        if (newGroup != null)
+            collectionRow.setColumn(stepColumn, newGroup.getID());
+        else
+            collectionRow.setColumnNull(stepColumn);
         modified = true;
+
+        // Deal with permissions.
+        try {
+            ourContext.turnOffAuthorisationSystem();
+            // remove the policies for the old group
+            if (oldGroup != null)
+            {
+                List<ResourcePolicy> oldPolicies = AuthorizeManager
+                        .getPoliciesActionFilter(ourContext, this, action);
+                int oldGroupID = oldGroup.getID();
+                for (ResourcePolicy rp : oldPolicies)
+                {
+                    if (rp.getGroupID() == oldGroupID)
+                        rp.delete();
+                }
+
+                oldPolicies = AuthorizeManager
+                        .getPoliciesActionFilter(ourContext, this, Constants.ADD);
+                for (ResourcePolicy rp : oldPolicies)
+                {
+                    if ((rp.getGroupID() == oldGroupID)
+                            && ResourcePolicy.TYPE_WORKFLOW.equals(rp.getRpType()))
+                        rp.delete();
+                }
+           }
+
+            // New group can be null to delete workflow step.
+            // We need to grant permissions if new group is not null.
+            if (newGroup != null)
+            {
+                AuthorizeManager.addPolicy(ourContext, this, action, newGroup,
+                        ResourcePolicy.TYPE_WORKFLOW);
+                /* JCP: We'd removed similar from the createWorkflowGroup method
+                AuthorizeManager.addPolicy(ourContext, this, Constants.ADD, newGroup,
+                        ResourcePolicy.TYPE_WORKFLOW);
+                */
+            }
+        } finally {
+            ourContext.restoreAuthSystemState();
+        }
     }
 
     /**
