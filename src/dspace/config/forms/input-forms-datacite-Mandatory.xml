@@ -127,6 +127,64 @@
  <!-- stores the associated stored-values in the database.                  -->
 
  <form-value-pairs>
+    <value-pairs value-pairs-name="datacite_resource_types" dc-term="type">
+      <pair>
+        <displayed-value>Audio-Visual</displayed-value>
+        <stored-value>Audiovisual</stored-value>
+      </pair>
+      <pair>
+        <displayed-value>Collection</displayed-value>
+        <stored-value>Collection</stored-value>
+      </pair>
+      <pair>
+        <displayed-value>Dataset</displayed-value>
+        <stored-value>Dataset</stored-value>
+      </pair>
+      <pair>
+        <displayed-value>Event</displayed-value>
+        <stored-value>Event</stored-value>
+      </pair>
+      <pair>
+        <displayed-value>Image</displayed-value>
+        <stored-value>Image</stored-value>
+      </pair>
+      <pair>
+        <displayed-value>Interactive Resource</displayed-value>
+        <stored-value>InteractiveResource</stored-value>
+      </pair>
+      <pair>
+        <displayed-value>Model</displayed-value>
+        <stored-value>Model</stored-value>
+      </pair>
+      <pair>
+        <displayed-value>Physical Object</displayed-value>
+        <stored-value>PhysicalObject</stored-value>
+      </pair>
+      <pair>
+        <displayed-value>Service</displayed-value>
+        <stored-value>Service</stored-value>
+      </pair>
+      <pair>
+        <displayed-value>Software</displayed-value>
+        <stored-value>Software</stored-value>
+      </pair>
+      <pair>
+        <displayed-value>Sound</displayed-value>
+        <stored-value>Sound</stored-value>
+      </pair>
+      <pair>
+        <displayed-value>Text</displayed-value>
+        <stored-value>Text</stored-value>
+      </pair>
+      <pair>
+        <displayed-value>Workflow</displayed-value>
+        <stored-value>Workflow</stored-value>
+      </pair>
+      <pair>
+        <displayed-value>Other</displayed-value>
+        <stored-value>Other</stored-value>
+      </pair>
+      </value-pairs>
 
  </form-value-pairs>
 
