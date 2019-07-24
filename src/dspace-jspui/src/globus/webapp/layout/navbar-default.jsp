@@ -162,7 +162,7 @@
 					<li class="expanded dropdown">
 						<a data-toggle="dropdown" class="dropdown-toggle" data-target="#" href="/home/%23">Account<span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li class="first leaf"><a href="<%= globusBaseURL %>/app/account">Manage Account</a></li>
+						  <li class="first leaf"><a href="https://app.globus.org/account/identities" target="GlobusOps">Manage Account</a></li>
 							<li class="leaf"><span class="divider separator"></span></li>
 							<%
 							if (isAdmin)

@@ -129,7 +129,7 @@
           <li class="dropdown">
              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account<b class="caret"></b></a>
              <ul class="dropdown-menu">
-			  <li class="first leaf"><a href="<%= globusBaseURL %>/app/account">Manage Account</a></li>
+	       <li class="first leaf"><a href="https://app.globus.org/account/identities" target="GlobusOps">Manage Account</a></li>
 			  <li class="leaf"><span class="divider separator"></span></li>
 			  <li class="last leaf"><a class="go-logout" href="<%= request.getContextPath() %>/logout">Logout</a></li>
              </ul>
